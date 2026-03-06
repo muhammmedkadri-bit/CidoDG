@@ -237,7 +237,6 @@ const CoverFlowCard = React.memo(({ memory, index, activeIndex }: CoverFlowCardP
               isActive ? "scale-105" : "scale-100"
             )}
             onError={() => setImageError(true)}
-            loading="lazy"
           />
         ) : (
           <div className="absolute inset-0 bg-zinc-900 border border-white/5 flex flex-col items-center justify-center p-6 text-center">
