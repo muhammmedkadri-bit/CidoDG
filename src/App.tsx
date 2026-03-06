@@ -706,6 +706,7 @@ export default function App() {
   const [showFinaleCandle, setShowFinaleCandle] = useState(false);
   const [isFinaleTriggered, setIsFinaleTriggered] = useState(false);
   const [isExtinguished, setIsExtinguished] = useState(false);
+  const [hasSeenConfetti, setHasSeenConfetti] = useState(false);
 
   // Note: Removed sync preloading of images to free up the main thread
   // during the initial load of the application. The images are now pre-loaded
@@ -750,36 +751,43 @@ export default function App() {
     }
   }, [isFinished]);
 
+  // Trigger confetti automatically when reaching the last card
+  useEffect(() => {
+    if (isFinished && !hasSeenConfetti) {
+      setHasSeenConfetti(true);
+
+      const duration = 2500;
+      const end = Date.now() + duration;
+
+      const frame = () => {
+        confetti({
+          particleCount: 8,
+          angle: 60,
+          spread: 60,
+          origin: { x: -0.1, y: 1 },
+          colors: ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#ffffff'],
+          shapes: ['heart' as any, 'circle']
+        });
+        confetti({
+          particleCount: 8,
+          angle: 120,
+          spread: 60,
+          origin: { x: 1.1, y: 1 },
+          colors: ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#ffffff'],
+          shapes: ['heart' as any, 'circle']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      };
+
+      frame();
+    }
+  }, [isFinished, hasSeenConfetti]);
+
   const triggerFinale = () => {
     setIsFinaleTriggered(true);
-
-    // Confetti burst from edges
-    const duration = 2500;
-    const end = Date.now() + duration;
-
-    const frame = () => {
-      confetti({
-        particleCount: 8,
-        angle: 60,
-        spread: 60,
-        origin: { x: -0.1, y: 1 },
-        colors: ['#ffffff', '#fde047', '#f472b6', '#38bdf8']
-      });
-      confetti({
-        particleCount: 8,
-        angle: 120,
-        spread: 60,
-        origin: { x: 1.1, y: 1 },
-        colors: ['#ffffff', '#fde047', '#f472b6', '#38bdf8']
-      });
-
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    };
-
-    frame();
-
     // Show candle wrapper (which starts with the 7-sec delay component)
     setShowFinaleCandle(true);
   };
@@ -969,7 +977,7 @@ export default function App() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1 }}
                   onClick={triggerFinale}
-                  className="px-8 py-3 rounded-full bg-amber-500/20 text-amber-100 border border-amber-500/30 backdrop-blur-md shadow-[0_0_20px_rgba(251,191,36,0.2)] hover:bg-amber-500/40 hover:scale-105 transition-all outline-none"
+                  className="px-8 py-3 rounded-full bg-amber-500/20 text-amber-100 border border-amber-500/30 backdrop-blur-md shadow-[0_0_20px_rgba(251,191,36,0.2)] hover:bg-amber-500/40 hover:scale-105 transition-all outline-none font-serif italic text-xl tracking-widest drop-shadow-md"
                 >
                   Hadi mumuna üfle 🎉
                 </motion.button>
