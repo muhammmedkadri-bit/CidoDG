@@ -212,7 +212,7 @@ const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeInde
       }}
       transition={{ type: "spring", stiffness: 350, damping: 30, mass: 0.8 }}
       className={cn(
-        "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[72vw] sm:w-[60vw] md:w-full max-w-sm aspect-[3/4] origin-center touch-none pointer-events-none"
+        "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[76vw] sm:w-[60vw] md:w-full max-w-sm aspect-[2/3] md:aspect-[3/4] origin-center touch-none pointer-events-none"
       )}
     >
       <div
@@ -596,16 +596,47 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [showFinaleCandle, setShowFinaleCandle] = useState(false);
   const [isFinaleTriggered, setIsFinaleTriggered] = useState(false);
   const [isExtinguished, setIsExtinguished] = useState(false);
 
   // Note: Removed sync preloading of images to free up the main thread
-  // during the initial load of the application.
+  // during the initial load of the application. The images are now pre-loaded
+  // fully explicitly via the user button click.
 
   const displayMemories = useMemo(() => SAMPLE_MEMORIES, []);
   const isFinished = activeIndex === displayMemories.length - 1;
+
+  const handleStart = async () => {
+    setIsLoading(true);
+    let loaded = 0;
+    const total = displayMemories.length;
+
+    await Promise.all(displayMemories.map(memory => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          loaded++;
+          setLoadingProgress(Math.round((loaded / total) * 100));
+          resolve(true);
+        };
+        img.onerror = () => {
+          loaded++;
+          setLoadingProgress(Math.round((loaded / total) * 100));
+          resolve(false);
+        };
+        img.src = memory.imageUrl;
+      });
+    }));
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setShowIntro(false);
+    }, 800);
+  };
 
   // Make sure to resets triggers when moving away
   useEffect(() => {
@@ -756,14 +787,32 @@ export default function App() {
                 Bu hediye hayatında sadece bir kişiden alabileceğin deneyim ve güzelliklerle dolu bir hediye...
               </p>
             </div>
-            <button
-              onClick={() => setShowIntro(false)}
-              className="group relative px-10 py-4 rounded-full overflow-hidden bg-white/5 border border-white/10 transition-all hover:bg-white/10 hover:border-white/25 active:scale-95"
-            >
-              <span className="relative z-10 flex items-center gap-3 font-medium tracking-[0.2em] text-xs text-white/80 uppercase">
-                Hediyeyi ziyaret et <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </span>
-            </button>
+            {isLoading ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-col items-center justify-center space-y-6"
+              >
+                <div className="w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
+                <div className="text-center space-y-2">
+                  <p className="text-white/80 font-serif italic text-lg tracking-wide animate-pulse">
+                    Hediyen düzenleniyor lütfen biraz bekle...
+                  </p>
+                  <p className="text-amber-500/80 font-mono text-sm tracking-[0.3em] font-medium">
+                    %{loadingProgress}
+                  </p>
+                </div>
+              </motion.div>
+            ) : (
+              <button
+                onClick={handleStart}
+                className="group relative px-10 py-4 rounded-full overflow-hidden bg-white/5 border border-white/10 transition-all hover:bg-white/10 hover:border-white/25 active:scale-95"
+              >
+                <span className="relative z-10 flex items-center gap-3 font-medium tracking-[0.2em] text-xs text-white/80 uppercase">
+                  Hediyeyi ziyaret et <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+              </button>
+            )}
           </motion.div>
         ) : (
           <motion.div
