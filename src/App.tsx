@@ -790,10 +790,10 @@ export default function App() {
   // Fade out music when reaching the final card 
   useEffect(() => {
     if (isFinished && audioRef.current && isPlayingBaseAudio) {
-      // Create a smooth volume fade-out over ~5 seconds (50 steps of 100ms)
+      // Create an extremely smooth volume fade-out over ~10 seconds (100 steps of 100ms)
       const audio = audioRef.current;
       const initialVol = audio.volume;
-      const steps = 50;
+      const steps = 100;
       const volumeStep = initialVol / steps;
       let currentStep = 0;
 
@@ -1066,7 +1066,7 @@ export default function App() {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite] rounded-full pointer-events-none" />
 
                 <span className="relative z-10 flex items-center justify-center gap-3 font-serif font-medium tracking-widest text-sm text-white/90 uppercase drop-shadow-md">
-                  Hediyeyi ziyaret et <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform opacity-70" />
+                  Hediyeyi gör <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform opacity-70" />
                 </span>
               </button>
             )}
