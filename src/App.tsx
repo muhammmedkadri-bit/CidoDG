@@ -757,6 +757,13 @@ export default function App() {
 
   const handleStart = async () => {
     setIsLoading(true);
+
+    // CRITICAL FIX: Play audio immediately on button click to satisfy Safari/Mobile interaction policies.
+    // If we wait for the Image Promise to resolve, the browser forgets the user clicked and blocks autoplay.
+    if (audioRef.current && !isPlayingBaseAudio) {
+      audioRef.current.play().catch(e => console.warn("Audio autoplay blocked:", e));
+    }
+
     let loaded = 0;
     const total = displayMemories.length;
 
@@ -778,9 +785,10 @@ export default function App() {
     }));
 
     setTimeout(() => {
-      // Fade in the audio over 3 seconds
+      setIsPlayingBaseAudio(true);
+
+      // Fade in the audio over 3 seconds now that we actually show the vinyl playing
       if (audioRef.current) {
-        audioRef.current.play().catch(e => console.warn("Audio autoplay blocked:", e));
         let vol = 0;
         const fade = setInterval(() => {
           if (vol < 0.8) { // Target volume
