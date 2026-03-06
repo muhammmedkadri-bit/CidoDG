@@ -193,7 +193,6 @@ const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeInde
   const translateZ = absOffset > 0 ? -150 - absOffset * 50 : 0;
   const rotateY = offset === 0 ? 0 : offset > 0 ? -35 : 35;
   const opacity = 1 - Math.min(absOffset * 0.25, 0.8);
-  const blur = absOffset > 0 ? Math.min(absOffset * 2, 8) : 0;
 
   // Render optimization: only render cards that are close to the active index
   if (absOffset > 3) return null;
@@ -207,7 +206,6 @@ const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeInde
         z: translateZ,
         rotateY,
         opacity,
-        filter: `blur(${blur}px)`,
         scale: isActive ? 1 : 0.85
       }}
       transition={{ type: "spring", stiffness: 350, damping: 30, mass: 0.8 }}
@@ -217,8 +215,8 @@ const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeInde
     >
       <div
         className={cn(
-          "relative w-full h-full rounded-2xl overflow-hidden glass-card transition-shadow duration-500",
-          isActive ? "shadow-[0_0_40px_rgba(255,255,255,0.15)] ring-1 ring-white/20" : "shadow-xl"
+          "relative w-full h-full rounded-2xl overflow-hidden bg-black/40 transition-shadow duration-500",
+          isActive ? "shadow-[0_0_30px_rgba(255,255,255,0.15)] ring-1 ring-white/20" : "shadow-lg shadow-black/50"
         )}
       >
         {!imageError ? (
@@ -271,7 +269,7 @@ const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeInde
         </AnimatePresence>
 
         {!isActive && (
-          <div className="absolute inset-0 bg-black/20 transition-colors duration-300 pointer-events-none" />
+          <div className="absolute inset-0 bg-black/60 pointer-events-none" />
         )}
       </div>
     </motion.div>
