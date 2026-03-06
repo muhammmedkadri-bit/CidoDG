@@ -590,16 +590,10 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
             {isLit && (
               <motion.div
                 initial={{ scale: 0, opacity: 0 }}
-                animate={{
-                  scale: [1, 1.15, 0.9, 1.05, 1],
-                  opacity: 1,
-                  rotate: [-3, 3, -1, 2, -2],
-                  y: [0, -2, 1, -1, 0],
-                  x: [-1, 1, -2, 1, 0]
-                }}
+                animate={{ opacity: 1, scale: 1 }}
                 exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
-                transition={{ duration: 0.1, repeat: Infinity, repeatType: "mirror" }}
-                className="relative w-8 h-20 origin-bottom"
+                transition={{ duration: 0.2 }}
+                className="relative w-8 h-20 origin-bottom animate-[candle-flicker_3s_infinite_ease-in-out]"
               >
                 {/* Ambient Glow */}
                 <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-orange-500/20 rounded-full blur-2xl z-10 pointer-events-none" />
@@ -644,9 +638,10 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-2 bg-gradient-to-b from-zinc-800 to-transparent rounded-[50%] z-10 opacity-40 mix-blend-multiply" />
 
           {/* Wick */}
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-1 h-3 bg-zinc-900 rounded-t-full z-10 
-            after:content-[''] after:absolute after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-red-500/50 after:rounded-full after:blur-[1px]
-          " />
+          <div className={cn(
+            "absolute -top-3 left-1/2 -translate-x-1/2 w-1 h-3 bg-zinc-900 rounded-t-full z-10",
+            isLit && "after:content-[''] after:absolute after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-red-500/50 after:rounded-full after:blur-[1px]"
+          )} />
 
           {/* Candle Body */}
           <div className="absolute inset-x-0 inset-y-0 mt-[-2px] bg-gradient-to-b from-amber-50/90 via-amber-100/90 to-amber-200/90 rounded-sm shadow-[inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-10px_20px_rgba(0,0,0,0.1)] border-x border-amber-300/40 overflow-hidden">
