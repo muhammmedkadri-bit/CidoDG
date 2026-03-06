@@ -650,11 +650,11 @@ export default function App() {
   };
 
   const handleNext = () => {
-    if (activeIndex < displayMemories.length - 1 && !isExtinguished) setActiveIndex(i => i + 1);
+    setActiveIndex(i => (i < displayMemories.length - 1 && !isExtinguished ? i + 1 : i));
   };
 
   const handlePrev = () => {
-    if (activeIndex > 0 && !isExtinguished) setActiveIndex(i => i - 1);
+    setActiveIndex(i => (i > 0 && !isExtinguished ? i - 1 : i));
   };
 
   // Keyboard navigation
@@ -773,21 +773,25 @@ export default function App() {
             transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
             className="w-full h-full absolute inset-0 flex flex-col items-center justify-center [perspective:1200px]"
           >
-            {/* Global Swipe Overlay */}
+            {/* Global Swipe Overlay - Background transparent added for solid hit detection on mobile */}
             <motion.div
               className={cn(
-                "absolute inset-0 z-40 touch-none",
+                "absolute inset-0 z-40 touch-none bg-transparent w-full h-full",
                 !showFinaleCandle ? "cursor-grab active:cursor-grabbing" : "cursor-default"
               )}
               drag={!showFinaleCandle ? "x" : false}
               dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.05}
-              onDragEnd={(e, { offset }) => {
+              dragElastic={0.15}
+              onDragEnd={(e, { offset, velocity }) => {
                 if (showFinaleCandle) return;
-                const threshold = 50;
-                if (offset.x < -threshold) {
+
+                // Optimized thresholds for perfect mobile responsiveness
+                const swipeDistance = offset.x;
+                const swipeVelocity = velocity.x;
+
+                if (swipeDistance < -20 || swipeVelocity < -300) {
                   handleNext();
-                } else if (offset.x > threshold) {
+                } else if (swipeDistance > 20 || swipeVelocity > 300) {
                   handlePrev();
                 }
               }}
@@ -795,7 +799,7 @@ export default function App() {
 
             {/* Gallery Tunnel */}
             <div className={cn(
-              "relative w-full max-w-5xl h-[65vh] flex items-center justify-center [transform-style:preserve-3d] pointer-events-none transition-transform duration-1000",
+              "relative z-30 w-full max-w-5xl h-[65vh] flex items-center justify-center [transform-style:preserve-3d] pointer-events-none transition-transform duration-1000",
               isFinaleTriggered ? "-translate-y-16 scale-95 opacity-50 blur-sm" : ""
             )}>
               {/* Only rendering the closest cards prevents massive render blocking initially */}
