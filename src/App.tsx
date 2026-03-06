@@ -837,7 +837,7 @@ export default function App() {
   }, [activeIndex, showIntro, displayMemories.length]);
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden font-sans bg-black touch-none select-none">
+    <div className="relative min-h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden font-sans bg-black touch-none select-none">
 
       {/* Blackout overlay after candle is blown */}
       <div
