@@ -601,14 +601,28 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
                 transition={{ duration: 0.1, repeat: Infinity, repeatType: "mirror" }}
                 className="relative w-8 h-20 origin-bottom"
               >
-                {/* Core white hot */}
-                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-6 bg-white rounded-[50%_50%_20%_20%] z-40 blur-[1px]" />
-                {/* Flame body */}
+                {/* Ambient Glow */}
+                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-orange-500/20 rounded-full blur-2xl z-10 pointer-events-none" />
+
+                {/* Flame Outer Aura */}
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-gradient-to-t from-blue-400 via-orange-400 to-yellow-100 rounded-[50%_50%_40%_40%] shadow-[0_0_30px_rgba(250,150,0,0.9),0_0_60px_rgba(250,200,50,0.6)] blur-[1.5px] z-30 mix-blend-screen"
-                  style={{ borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%' }}
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-10 h-20 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none"
                 />
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-24 h-24 bg-orange-500/20 rounded-full blur-2xl z-10" />
+
+                {/* Main Flame Body (Teardrop) */}
+                <div
+                  className="absolute bottom-1 left-1/2 -translate-x-1/2 w-6 h-14 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen"
+                />
+
+                {/* Flame Inner Core (White Hot) */}
+                <div
+                  className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2.5 h-6 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40"
+                />
+
+                {/* Blue/Dark Base of the flame */}
+                <div
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply"
+                />
               </motion.div>
             )}
           </AnimatePresence>
@@ -626,13 +640,24 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
 
         {/* The Candle */}
         <div className="relative w-4 h-24 z-20 mb-[-10px] drop-shadow-lg">
+          {/* Top dark indented pool of the wick */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-2 bg-gradient-to-b from-zinc-800 to-transparent rounded-[50%] z-10 opacity-40 mix-blend-multiply" />
+
           {/* Wick */}
-          <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-1.5 h-3 bg-zinc-900 rounded-t-full z-10" />
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-1 h-3 bg-zinc-900 rounded-t-full z-10 
+            after:content-[''] after:absolute after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-red-500/50 after:rounded-full after:blur-[1px]
+          " />
 
           {/* Candle Body */}
-          <div className="absolute inset-0 bg-gradient-to-r from-teal-200 via-teal-50 to-teal-300 rounded-sm shadow-[inset_0_0_5px_rgba(0,0,0,0.2)] border-x border-teal-400/30 overflow-hidden">
-            {/* Spiral Stripes */}
-            <div className="absolute inset-0 bg-[#ffffff33] [transform:skewY(-20deg)] bg-[repeating-linear-gradient(to_bottom,transparent,transparent_8px,rgba(255,255,255,0.7)_8px,rgba(255,255,255,0.7)_16px)]" />
+          <div className="absolute inset-x-0 inset-y-0 mt-[-2px] bg-gradient-to-b from-amber-50/90 via-amber-100/90 to-amber-200/90 rounded-sm shadow-[inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-10px_20px_rgba(0,0,0,0.1)] border-x border-amber-300/40 overflow-hidden">
+            {/* Melting wax drip */}
+            <div className="absolute top-0 left-1 w-2 h-8 bg-gradient-to-b from-amber-50 to-transparent rounded-full opacity-60 blur-[0.5px]" />
+            <div className="absolute top-0 right-1.5 w-1.5 h-12 bg-gradient-to-b from-amber-50 to-transparent rounded-full opacity-50 blur-[0.5px]" />
+
+            {/* Soft internal lit glow when active */}
+            {isLit && (
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-16 bg-gradient-to-b from-orange-400/30 to-transparent blur-md" />
+            )}
           </div>
         </div>
 
