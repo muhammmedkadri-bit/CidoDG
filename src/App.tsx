@@ -743,9 +743,10 @@ export default function App() {
   const isFinished = activeIndex === displayMemories.length - 1;
 
   const handleStart = async () => {
-    // Play immediately on user interaction
+    // Play immediately on user interaction at a comfortable volume
     if (audioRef.current && !isPlayingBaseAudio) {
-      audioRef.current.volume = 0;
+      audioRef.current.volume = 0.6;
+      setIsPlayingBaseAudio(true); // Start spinning the record immediately!
       const playPromise = audioRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch(error => {
@@ -776,27 +777,11 @@ export default function App() {
     }));
 
     setTimeout(() => {
-      setIsPlayingBaseAudio(true);
-
-      // Fade in the audio over 3 seconds now that we actually show the vinyl playing
-      if (audioRef.current) {
-        let vol = 0;
-        const fade = setInterval(() => {
-          if (vol < 0.8) { // Target volume
-            vol += 0.05;
-            if (audioRef.current) audioRef.current.volume = Math.min(vol, 1);
-          } else {
-            clearInterval(fade);
-          }
-        }, 200);
-      }
-      setIsPlayingBaseAudio(true);
-
       // Wait for needle animation to land (approx 1s) then hide intro
       setTimeout(() => {
         setIsLoading(false);
         setShowIntro(false);
-      }, 1500);
+      }, 1000);
     }, 500);
   };
 
