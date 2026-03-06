@@ -974,9 +974,19 @@ export default function App() {
               >
                 {/* Vinyl Record Player */}
                 <div className="relative w-40 h-40">
-                  {/* Turntable Base */}
-                  <div className="absolute inset-0 bg-stone-900 rounded-[15%] shadow-[inset_0_2px_15px_rgba(0,0,0,0.8),0_10px_30px_rgba(0,0,0,0.8)] border border-white/5 overflow-hidden flex items-center justify-center">
-                    <div className="absolute top-2 right-2 w-3 h-3 rounded-full bg-red-500/80 shadow-[0_0_8px_red]" />
+                  {/* Retro Wooden Turntable Base */}
+                  <div className="absolute inset-0 bg-[#3E2723] rounded-xl shadow-[inset_0_2px_15px_rgba(0,0,0,0.8),inset_0_0_0_4px_#5D4037,0_15px_35px_rgba(0,0,0,0.8)] border border-[#795548] overflow-hidden flex items-center justify-center">
+                    {/* Brass/Gold Corner Accents */}
+                    <div className="absolute top-1 left-1 w-2 h-2 rounded-full bg-yellow-600 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]" />
+                    <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-yellow-600 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]" />
+                    <div className="absolute bottom-1 left-1 w-2 h-2 rounded-full bg-yellow-600 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]" />
+                    <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-yellow-600 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]" />
+
+                    {/* Small red light indicator */}
+                    <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-red-500/90 shadow-[0_0_8px_red]" />
+
+                    {/* Internal metal platter base */}
+                    <div className="absolute inset-0 m-auto w-36 h-36 bg-zinc-800 rounded-full shadow-[inset_0_5px_15px_rgba(0,0,0,0.8)] border-4 border-zinc-700/50" />
                   </div>
 
                   {/* Record Platter / Vinyl */}
@@ -990,10 +1000,10 @@ export default function App() {
                       <div className="absolute inset-4 border border-white/10 rounded-full mix-blend-screen" />
                       <div className="absolute inset-6 border border-white/10 rounded-full mix-blend-screen" />
 
-                      {/* Vinyl Center Label */}
-                      <div className="w-10 h-10 bg-amber-600 rounded-full flex items-center justify-center outline outline-1 outline-black shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]">
+                      {/* Vinyl Center Label (Vintage Red/Gold) */}
+                      <div className="w-10 h-10 bg-red-800 rounded-full flex items-center justify-center outline outline-1 outline-[#d4af37] shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] border-2 border-[#d4af37]">
                         {/* Spindle hole */}
-                        <div className="w-1.5 h-1.5 bg-zinc-400 rounded-full shadow-inner" />
+                        <div className="w-1.5 h-1.5 bg-zinc-400 rounded-full shadow-inner z-10" />
                       </div>
 
                       {/* Gloss Reflection */}
@@ -1001,21 +1011,22 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Record Player Arm / Needle */}
-                  {/* It rests at -30deg. When audio plays, we drop it to 0deg (over the record) */}
-                  <div className="absolute top-4 right-4 z-10 w-6 h-24 origin-[top_center] pointer-events-none">
+                  {/* Record Player Arm / Needle (Brass and Wood) */}
+                  <div className="absolute top-4 right-3 z-10 w-6 h-24 origin-[top_center] pointer-events-none">
                     <div className={cn(
                       "w-full h-full origin-[80%_10%] transition-transform duration-1000 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
                       isPlayingBaseAudio ? "rotate-12" : "-rotate-12"
                     )}>
-                      {/* Base Pivot */}
-                      <div className="w-5 h-5 bg-zinc-400 rounded-full shadow-lg ml-auto border border-zinc-300" />
-                      {/* Tonearm */}
-                      <div className="w-1 h-20 bg-gradient-to-r from-zinc-400 to-zinc-300 mx-auto -mt-2 rounded-full shadow-md" />
-                      {/* Cartridge/Needle Body */}
-                      <div className="w-3.5 h-6 bg-zinc-800 mx-auto -mt-1 rounded-sm shadow-xl flex justify-end">
+                      {/* Brass Base Pivot */}
+                      <div className="w-6 h-6 bg-gradient-to-br from-yellow-300 via-yellow-600 to-yellow-800 rounded-full shadow-lg ml-auto border border-yellow-700/50 flex items-center justify-center">
+                        <div className="w-2 h-2 bg-yellow-900 rounded-full shadow-inner" />
+                      </div>
+                      {/* Tonearm (Gold/Brass) */}
+                      <div className="w-1.5 h-16 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-600 mx-auto -mt-2 rounded-full shadow-[2px_0_5px_rgba(0,0,0,0.5)]" />
+                      {/* Cartridge/Needle Body (Wood/Gold) */}
+                      <div className="w-3.5 h-7 bg-gradient-to-b from-[#5D4037] to-[#3E2723] mx-auto -mt-1 rounded-sm shadow-xl flex justify-end border-t-2 border-yellow-500">
                         {/* Literal Needle Tip */}
-                        <div className="w-0.5 h-2 bg-white/50 -ml-1 mt-5" />
+                        <div className="w-0.5 h-2 bg-zinc-400 -ml-1 mt-6 shadow-sm" />
                       </div>
                     </div>
                   </div>
