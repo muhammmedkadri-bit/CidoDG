@@ -199,7 +199,7 @@ const CoverFlowCard = React.memo(({ memory, index, activeIndex }: CoverFlowCardP
 
   return (
     <motion.div
-      style={{ zIndex, willChange: 'transform, opacity' }}
+      style={{ zIndex }}
       initial={false}
       animate={{
         x: `${translateX}%`,
@@ -304,14 +304,12 @@ const SwipeOverlay = React.memo(({ onSwipeLeft, onSwipeRight, disabled }: { onSw
 
       swipeData.current.isDragging = false;
 
-      // rAF implementation for UI updates to decouple calculations
-      requestAnimationFrame(() => {
-        if (deltaX < -20 || velocity < -300) {
-          onSwipeLeft();
-        } else if (deltaX > 20 || velocity > 300) {
-          onSwipeRight();
-        }
-      });
+      // Direct React state updates without rAF to prevent iOS Safari/Chrome compositor layer freezing
+      if (deltaX < -20 || velocity < -300) {
+        onSwipeLeft();
+      } else if (deltaX > 20 || velocity > 300) {
+        onSwipeRight();
+      }
     };
 
     el.addEventListener('touchstart', handleTouchStart, { passive: true });
