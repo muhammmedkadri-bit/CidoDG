@@ -785,12 +785,18 @@ export default function App() {
         </button>
       </div>
 
-      <StarlightBackground />
-      {!showIntro && <FairyLights />}
+      <div className="hidden md:block">
+        <StarlightBackground />
+      </div>
+      {!showIntro && (
+        <div className="hidden md:block">
+          <FairyLights />
+        </div>
+      )}
 
       {/* Floating Letters Sequence */}
       {!showIntro && (
-        <div className="fixed top-12 md:top-24 left-1/2 -translate-x-1/2 w-full max-w-2xl flex justify-center z-40 text-xl sm:text-2xl md:text-3xl font-serif text-amber-50 drop-shadow-[0_0_15px_rgba(253,230,138,0.8)] pointer-events-none mix-blend-screen whitespace-nowrap">
+        <div className="hidden md:flex fixed top-12 md:top-24 left-1/2 -translate-x-1/2 w-full max-w-2xl justify-center z-40 text-xl sm:text-2xl md:text-3xl font-serif text-amber-50 drop-shadow-[0_0_15px_rgba(253,230,138,0.8)] pointer-events-none mix-blend-screen whitespace-nowrap">
           {CARD_LETTERS.map((item, idx) => (
             <React.Fragment key={idx}>
               <AnimatePresence>
