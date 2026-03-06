@@ -448,7 +448,7 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsStartup(false);
-    }, 7000);
+    }, 15000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -495,8 +495,15 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
           }
           const average = sum / dataArray.length;
 
-          // "Blowing" threshold drastically lowered for easy detection
-          if (average > 25) {
+          // Blowing creates huge low-frequency (bass) energy from wind noise on the mic.
+          // By checking only the lowest frequency bins (e.g. 0-5), we can distinguish blowing from background talking.
+          let lowSum = 0;
+          for (let i = 0; i < 5; i++) {
+            lowSum += dataArray[i];
+          }
+          const lowAverage = lowSum / 5;
+
+          if (lowAverage > 220) { // Require a very strong, close-range wind rumble
             setIsLit(false);
             onExtinguished();
             stopMic(); // Immediately kill mic on blow
@@ -550,7 +557,7 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
             Son bir şey daha...
           </h2>
           <p className="text-white/70 mt-4 text-lg font-light tracking-wide max-w-sm mx-auto p-4 bg-black/30 rounded-2xl border border-white/5 shadow-2xl backdrop-blur-md">
-            Beraber olduğumuz son salıncaklara ufak bir hediye bıraktım. Almak istersen seni orada bekliyor. Hadi bir dilek tut. Birazdan pasta ve mumun geldiğinde dileğini dile ve mumunu üflemek için mikrofon iznine izin ver. Her şey gönlünce olsun...
+            Beraber olduğumuz son salıncaklara ufak bir hediye bıraktım. Almak istersen seni orada bekliyor. Şimdi bir dilek tut. Birazdan pasta ve mumun geldiğinde dileğini dile ve mumunu üflemek için mikrofon iznine izin ver. Her şey gönlünce olsun...
           </p>
         </motion.div>
       </div>
@@ -562,14 +569,14 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
       <motion.h3
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="text-2xl font-serif text-amber-100 italic tracking-widest drop-shadow-[0_0_10px_rgba(253,230,138,0.5)] bg-black/40 px-6 py-2 rounded-full backdrop-blur-md border border-white/10 text-center z-50"
+        className="text-3xl md:text-4xl font-serif text-amber-50 italic tracking-[0.1em] drop-shadow-[0_0_15px_rgba(253,230,138,0.8)] bg-black/60 px-8 py-4 rounded-full backdrop-blur-xl border border-white/20 text-center z-50 transition-all duration-1000"
       >
         {isLit ? (
           <>
-            Dileğini tut ve pastanı üfle...
-            {micState === 'error' && <span className="block text-xs opacity-50 mt-1 font-sans tracking-normal">(Söndürmek için pastaya dokun)</span>}
+            Bir dilek tut ve muma üfle...
+            {micState === 'error' && <span className="block text-sm opacity-60 mt-2 font-sans tracking-normal not-italic">(Söndürmek için pastaya dokun)</span>}
           </>
-        ) : "Dileğin kabul olsun..."}
+        ) : "Dileklerinin kabul olacağı nice yaşlara..."}
       </motion.h3>
 
       <div
