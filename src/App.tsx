@@ -104,6 +104,13 @@ const SAMPLE_MEMORIES: Memory[] = [
     location: 'Salıncaklar'
   },
   {
+    id: '15',
+    title: 'Harabe bir ev...',
+    description: 'Kaderin en deli dolu aşkları bile dizginleyip evlerini harabeye çevirdiği görülmüştür. Bunun ağırlığını ise ancak yaşayarak öğrenebilirmiş insan... O ev, o bahçe, çocuklar, kediler, vişne suları, beyaz çikolatalar ve niceleri. Bir hikayeyi kötü yanlarıyla değil de iyi yanlarıyla hatırlamak her zaman en güzeli olacak....',
+    imageUrl: 'https://i.hizliresim.com/la23owj.png',
+    location: ''
+  },
+  {
     id: '10',
     title: 'Bir çocuk parkının tek bankında...',
     description: '',
@@ -137,13 +144,6 @@ const SAMPLE_MEMORIES: Memory[] = [
     description: '',
     imageUrl: 'https://i.hizliresim.com/5ynd064.png',
     location: 'Park'
-  },
-  {
-    id: '15',
-    title: 'Harabe bir ev...',
-    description: 'Kaderin bazen çiçeklerle dolu bir evi hatalarla, yanlışlarla ve bilinmezliklerle harabeye çevirdiği hep görülmüştür ancak insanın kendi başına getirince...',
-    imageUrl: 'https://i.hizliresim.com/la23owj.png',
-    location: ''
   },
   {
     id: '16',
