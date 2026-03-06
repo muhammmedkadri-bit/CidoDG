@@ -210,9 +210,9 @@ const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeInde
         filter: `blur(${blur}px)`,
         scale: isActive ? 1 : 0.85
       }}
-      transition={{ type: "spring", stiffness: 200, damping: 25, mass: 1 }}
+      transition={{ type: "spring", stiffness: 350, damping: 30, mass: 0.8 }}
       className={cn(
-        "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm aspect-[3/4] origin-center touch-none pointer-events-none"
+        "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[72vw] sm:w-[60vw] md:w-full max-w-sm aspect-[3/4] origin-center touch-none pointer-events-none"
       )}
     >
       <div
@@ -699,7 +699,7 @@ export default function App() {
 
       {/* Floating Letters Sequence */}
       {!showIntro && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 w-full max-w-2xl flex justify-center z-40 text-2xl md:text-3xl font-serif text-amber-50 drop-shadow-[0_0_15px_rgba(253,230,138,0.8)] pointer-events-none mix-blend-screen whitespace-nowrap">
+        <div className="fixed top-12 md:top-24 left-1/2 -translate-x-1/2 w-full max-w-2xl flex justify-center z-40 text-xl sm:text-2xl md:text-3xl font-serif text-amber-50 drop-shadow-[0_0_15px_rgba(253,230,138,0.8)] pointer-events-none mix-blend-screen whitespace-nowrap">
           {CARD_LETTERS.map((item, idx) => (
             <React.Fragment key={idx}>
               <AnimatePresence>
@@ -855,6 +855,13 @@ export default function App() {
 
       <div className="fixed top-20 left-1/2 -translate-x-1/2 text-white/20 font-serif italic text-xs tracking-widest pointer-events-none opacity-50 z-50 mix-blend-screen whitespace-nowrap hidden md:block">
         {!showIntro && !showFinaleCandle && "Fotoğraf geçişleri için ekranı kaydırın veya yön tuşlarını kullanın"}
+      </div>
+
+      {/* Hidden Native Preloader to prevent mobile browser re-fetching images on swipe unmounts */}
+      <div className="hidden" aria-hidden="true">
+        {displayMemories.map(m => (
+          <img key={`preload-${m.id}`} src={m.imageUrl} alt="" loading="eager" />
+        ))}
       </div>
     </div>
   );
