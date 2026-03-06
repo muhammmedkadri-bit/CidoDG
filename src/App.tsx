@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, MapPin, Sparkles, Image as ImageIcon, ChevronRight } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
@@ -181,7 +181,7 @@ interface CoverFlowCardProps {
   activeIndex: number;
 }
 
-const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeIndex }) => {
+const CoverFlowCard = React.memo(({ memory, index, activeIndex }: CoverFlowCardProps) => {
   const [imageError, setImageError] = useState(false);
 
   const offset = index - activeIndex;
@@ -199,7 +199,7 @@ const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeInde
 
   return (
     <motion.div
-      style={{ zIndex }}
+      style={{ zIndex, willChange: 'transform, opacity' }}
       initial={false}
       animate={{
         x: `${translateX}%`,
@@ -216,7 +216,7 @@ const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeInde
       <div
         className={cn(
           "relative w-full h-full rounded-2xl overflow-hidden bg-black/40 transition-shadow duration-500",
-          isActive ? "shadow-[0_0_30px_rgba(255,255,255,0.15)] ring-1 ring-white/20" : "shadow-lg shadow-black/50"
+          isActive ? "ring-1 ring-white/20 sm:shadow-[0_0_30px_rgba(255,255,255,0.15)]" : "border border-white/10 sm:border-0 sm:shadow-lg sm:shadow-black/50"
         )}
       >
         {!imageError ? (
@@ -274,7 +274,65 @@ const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeInde
       </div>
     </motion.div>
   );
-};
+});
+
+// Highly optimized passive touch listener for swiping without React re-renders or Framer Motion drag overhead
+const SwipeOverlay = React.memo(({ onSwipeLeft, onSwipeRight, disabled }: { onSwipeLeft: () => void, onSwipeRight: () => void, disabled: boolean }) => {
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const swipeData = useRef({ startX: 0, startTime: 0, isDragging: false });
+
+  useEffect(() => {
+    const el = overlayRef.current;
+    if (!el) return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (disabled) return;
+      swipeData.current = {
+        startX: e.touches[0].clientX,
+        startTime: Date.now(),
+        isDragging: true
+      };
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!swipeData.current.isDragging || disabled) return;
+
+      const endX = e.changedTouches[0].clientX;
+      const deltaX = endX - swipeData.current.startX;
+      const deltaTime = Date.now() - swipeData.current.startTime;
+      const velocity = deltaX / (deltaTime || 1) * 1000;
+
+      swipeData.current.isDragging = false;
+
+      // rAF implementation for UI updates to decouple calculations
+      requestAnimationFrame(() => {
+        if (deltaX < -20 || velocity < -300) {
+          onSwipeLeft();
+        } else if (deltaX > 20 || velocity > 300) {
+          onSwipeRight();
+        }
+      });
+    };
+
+    el.addEventListener('touchstart', handleTouchStart, { passive: true });
+    el.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      el.removeEventListener('touchstart', handleTouchStart);
+      el.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [disabled, onSwipeLeft, onSwipeRight]);
+
+  return (
+    <div
+      ref={overlayRef}
+      className={cn(
+        "absolute inset-0 z-40 touch-pan-y bg-transparent w-full h-full",
+        !disabled ? "cursor-grab active:cursor-grabbing" : "cursor-default"
+      )}
+    />
+  );
+});
 
 const StarlightBackground = () => {
   const stars = useMemo(() => Array.from({ length: 80 }), []);
@@ -684,13 +742,13 @@ export default function App() {
     setShowFinaleCandle(true);
   };
 
-  const handleNext = () => {
-    setActiveIndex(i => (i < displayMemories.length - 1 && !isExtinguished ? i + 1 : i));
-  };
+  const handleNext = useCallback(() => {
+    setActiveIndex(i => (i < SAMPLE_MEMORIES.length - 1 && !isExtinguished ? i + 1 : i));
+  }, [isExtinguished]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setActiveIndex(i => (i > 0 && !isExtinguished ? i - 1 : i));
-  };
+  }, [isExtinguished]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -826,28 +884,10 @@ export default function App() {
             transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
             className="w-full h-full absolute inset-0 flex flex-col items-center justify-center [perspective:1200px]"
           >
-            {/* Global Swipe Overlay - Background transparent added for solid hit detection on mobile */}
-            <motion.div
-              className={cn(
-                "absolute inset-0 z-40 touch-none bg-transparent w-full h-full",
-                !showFinaleCandle ? "cursor-grab active:cursor-grabbing" : "cursor-default"
-              )}
-              drag={!showFinaleCandle ? "x" : false}
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.15}
-              onDragEnd={(e, { offset, velocity }) => {
-                if (showFinaleCandle) return;
-
-                // Optimized thresholds for perfect mobile responsiveness
-                const swipeDistance = offset.x;
-                const swipeVelocity = velocity.x;
-
-                if (swipeDistance < -20 || swipeVelocity < -300) {
-                  handleNext();
-                } else if (swipeDistance > 20 || swipeVelocity > 300) {
-                  handlePrev();
-                }
-              }}
+            <SwipeOverlay
+              disabled={showFinaleCandle}
+              onSwipeLeft={handleNext}
+              onSwipeRight={handlePrev}
             />
 
             {/* Gallery Tunnel */}
