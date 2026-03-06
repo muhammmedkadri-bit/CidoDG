@@ -793,6 +793,36 @@ export default function App() {
     }
   }, [isFinished]);
 
+  // Fade out music when reaching the final card 
+  useEffect(() => {
+    if (isFinished && audioRef.current && isPlayingBaseAudio) {
+      // Create a smooth volume fade-out over ~5 seconds (50 steps of 100ms)
+      const audio = audioRef.current;
+      const initialVol = audio.volume;
+      const steps = 50;
+      const volumeStep = initialVol / steps;
+      let currentStep = 0;
+
+      const fadeInterval = setInterval(() => {
+        currentStep++;
+        if (currentStep >= steps) {
+          clearInterval(fadeInterval);
+          audio.pause();
+          audio.volume = 0;
+          setIsPlayingBaseAudio(false);
+        } else {
+          // Prevent negative volume error
+          audio.volume = Math.max(0, initialVol - (volumeStep * currentStep));
+        }
+      }, 100);
+
+      // Cleanup to prevent multiple intervals if user swipes rapidly back and forth
+      return () => {
+        clearInterval(fadeInterval);
+      };
+    }
+  }, [isFinished, isPlayingBaseAudio]);
+
   // Trigger confetti automatically when reaching the last card
   useEffect(() => {
     if (isFinished && !hasSeenConfetti) {
@@ -1031,13 +1061,11 @@ export default function App() {
             ) : (
               <button
                 onClick={handleStart}
-                className="group relative flex items-center gap-4 px-10 py-5 mx-auto rounded-full overflow-hidden bg-amber-600/20 border border-amber-500/30 transition-all hover:bg-amber-600/30 hover:border-amber-500/50 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(217,119,6,0.2)] hover:shadow-[0_0_30px_rgba(217,119,6,0.3)] backdrop-blur-md"
+                className="group relative px-10 py-5 rounded-full overflow-hidden bg-white/5 border border-white/10 transition-all hover:bg-white/10 hover:border-white/25 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] backdrop-blur-sm mx-auto"
               >
-                <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.5)] group-hover:scale-110 transition-transform">
-                  <Play size={20} className="text-white fill-white ml-1" />
-                </div>
-                <span className="relative z-10 flex items-center font-medium tracking-[0.2em] text-sm text-white/90 uppercase">
-                  Hediyeyi Başlat
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
+                <span className="relative z-10 flex items-center justify-center gap-3 font-medium tracking-[0.2em] text-sm text-white/90 uppercase">
+                  Hediyeyi ziyaret et <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform opacity-70" />
                 </span>
               </button>
             )}
