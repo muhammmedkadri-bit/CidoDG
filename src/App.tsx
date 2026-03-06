@@ -64,7 +64,7 @@ const SAMPLE_MEMORIES: Memory[] = [
   {
     id: '4',
     title: 'Hatırlanmak...',
-    description: 'En sevdiğimin, Fenerbahçemin sevincini paylaştığım bir hikayeyey hiç beklemediğim bir yanıt gelmişti. "Eski bir dost...". Kalbimin küt küt atışı, sandalyeden doğruluşum. Bir akşam üstüydü...',
+    description: 'O gün deliler gibi sevindiğim Fenerbahçe galibiyeti için paylaştığım story\'ye hiç ummadığım bir yanıt gelmişti. \'Eski dostum\'... Kalbimin küt küt atışı, sandalyeden fırlayışım. Bir akşam üstüydü',
     imageUrl: 'https://i.hizliresim.com/qa7em2o.png',
     location: 'Antalya / Cizre'
   },
