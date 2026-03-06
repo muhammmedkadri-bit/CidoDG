@@ -736,19 +736,6 @@ export default function App() {
   const [hasSeenConfetti, setHasSeenConfetti] = useState(false);
   const [isPlayingBaseAudio, setIsPlayingBaseAudio] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    // Create the audio element pointing to an mp3 file in the public folder
-    const audio = new Audio('/song.mp3');
-    audio.loop = true;
-    audio.volume = 0; // We'll fade it in
-    audioRef.current = audio;
-
-    return () => {
-      audio.pause();
-      audio.src = '';
-    };
-  }, []);
   // during the initial load of the application. The images are now pre-loaded
   // fully explicitly via the user button click.
 
@@ -756,14 +743,18 @@ export default function App() {
   const isFinished = activeIndex === displayMemories.length - 1;
 
   const handleStart = async () => {
-    setIsLoading(true);
-
-    // CRITICAL FIX: Play audio immediately on button click to satisfy Safari/Mobile interaction policies.
-    // If we wait for the Image Promise to resolve, the browser forgets the user clicked and blocks autoplay.
+    // Play immediately on user interaction
     if (audioRef.current && !isPlayingBaseAudio) {
-      audioRef.current.play().catch(e => console.warn("Audio autoplay blocked:", e));
+      audioRef.current.volume = 0;
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.warn("Auto-play was prevented by the browser.", error);
+        });
+      }
     }
 
+    setIsLoading(true);
     let loaded = 0;
     const total = displayMemories.length;
 
@@ -1143,6 +1134,16 @@ export default function App() {
           <img key={`preload-${m.id}`} src={m.imageUrl} alt="" loading="eager" />
         ))}
       </div>
+
+      {/* Persistent Audio Element - Guarantees better mobile support than new Audio() */}
+      <audio
+        ref={audioRef}
+        src="/song.mp3"
+        loop
+        preload="auto"
+        className="hidden"
+        aria-hidden="true"
+      />
     </div>
   );
 }
