@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Heart, MapPin, Sparkles, Image as ImageIcon, ChevronRight } from 'lucide-react';
+import { Heart, MapPin, Sparkles, Image as ImageIcon, ChevronRight, Play } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import confetti from 'canvas-confetti';
@@ -1031,10 +1031,13 @@ export default function App() {
             ) : (
               <button
                 onClick={handleStart}
-                className="group relative px-10 py-4 rounded-full overflow-hidden bg-white/5 border border-white/10 transition-all hover:bg-white/10 hover:border-white/25 active:scale-95"
+                className="group relative flex items-center gap-4 px-10 py-5 mx-auto rounded-full overflow-hidden bg-amber-600/20 border border-amber-500/30 transition-all hover:bg-amber-600/30 hover:border-amber-500/50 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(217,119,6,0.2)] hover:shadow-[0_0_30px_rgba(217,119,6,0.3)] backdrop-blur-md"
               >
-                <span className="relative z-10 flex items-center gap-3 font-medium tracking-[0.2em] text-xs text-white/80 uppercase">
-                  Hediyeyi ziyaret et <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.5)] group-hover:scale-110 transition-transform">
+                  <Play size={20} className="text-white fill-white ml-1" />
+                </div>
+                <span className="relative z-10 flex items-center font-medium tracking-[0.2em] text-sm text-white/90 uppercase">
+                  Hediyeyi Başlat
                 </span>
               </button>
             )}
@@ -1121,13 +1124,15 @@ export default function App() {
       </div>
 
       {/* Persistent Audio Element - Guarantees better mobile support than new Audio() */}
+      {/* Note: display: none or hidden can sometimes suspend media decoding on mobile WebKit. Moving off-screen instead. */}
       <audio
         ref={audioRef}
         src="/song.mp3"
         loop
         preload="auto"
-        className="hidden"
+        className="fixed -top-[9999px] -left-[9999px] opacity-0 pointer-events-none"
         aria-hidden="true"
+        playsInline // Extremely crucial for iOS autoplay
       />
     </div>
   );
