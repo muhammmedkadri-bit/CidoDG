@@ -99,7 +99,7 @@ const SAMPLE_MEMORIES: Memory[] = [
   {
     id: '9',
     title: 'Mabed\'de yeniden...',
-    description: 'Umutsuz bir geceyi güzel kılan şey hayatının aşkını en sevdiğiniz yerde sürpriz bir şekilde görmek kadar güzeli olmaz bu dünyada. Temelli dönüş, yeni bir macera, iyiler, kötüler ve hatta ayrılık...',
+    description: 'Umutsuzca memlekete gelirsin ümidiyle üzülürken anı beraber yaşamak için beni salıncaklara gönderdiğin ve arkamdan gelip bana sarıldığın, sürpriz yaptığın o gece. O gece bütün dünya benim olsa o kadar sevinmezdim. Bu dönüş kesin ve temelli bir dönüştü. Yeni ve soluksuz bir macera iyilikler, kötülükler hatta uzun bir zaman sonra da ayrılık...',
     imageUrl: 'https://i.hizliresim.com/s3489yg.png',
     location: 'Salıncaklar'
   },
