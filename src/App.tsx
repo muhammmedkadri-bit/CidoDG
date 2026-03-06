@@ -191,7 +191,10 @@ const CoverFlowCard = React.memo(({ memory, index, activeIndex }: CoverFlowCardP
 
   const translateX = offset * 25;
   const translateZ = absOffset > 0 ? -150 - absOffset * 50 : 0;
-  const rotateY = offset === 0 ? 0 : offset > 0 ? -35 : 35;
+
+  // Creates a soft 'flip' sensation on transition (more dynamic rotation based on distance)
+  const rotateY = offset === 0 ? 0 : offset * -25;
+
   const opacity = 1 - Math.min(absOffset * 0.25, 0.8);
 
   // Render optimization: only render cards that are close to the active index
@@ -199,7 +202,7 @@ const CoverFlowCard = React.memo(({ memory, index, activeIndex }: CoverFlowCardP
 
   return (
     <motion.div
-      style={{ zIndex }}
+      style={{ zIndex, willChange: 'transform' }}
       initial={false}
       animate={{
         x: `${translateX}%`,
@@ -219,6 +222,12 @@ const CoverFlowCard = React.memo(({ memory, index, activeIndex }: CoverFlowCardP
           isActive ? "ring-1 ring-white/20 sm:shadow-[0_0_30px_rgba(255,255,255,0.15)]" : "border border-white/10 sm:border-0 sm:shadow-lg sm:shadow-black/50"
         )}
       >
+        {/* Shimmer Effect Outline (Active only) */}
+        {isActive && (
+          <div className="absolute inset-0 pointer-events-none rounded-2xl z-50">
+            <div className="absolute inset-0 rounded-2xl p-[1px] bg-[linear-gradient(110deg,rgba(255,255,255,0),rgba(255,255,255,0.4),rgba(255,255,255,0))] [background-size:200%_100%] animate-[shimmer-border_3s_infinite_linear]" style={{ WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', WebkitMaskComposite: 'xor', maskComposite: 'exclude' }} />
+          </div>
+        )}
         {!imageError ? (
           <img
             src={memory.imageUrl}
@@ -329,6 +338,42 @@ const SwipeOverlay = React.memo(({ onSwipeLeft, onSwipeRight, disabled }: { onSw
         !disabled ? "cursor-grab active:cursor-grabbing" : "cursor-default"
       )}
     />
+  );
+});
+
+// Highly optimized, zero-layer CSS animation for mobile "fireflies"
+const MobileFireflies = React.memo(() => {
+  const flies = useMemo(() => Array.from({ length: 12 }), []);
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden md:hidden">
+      {flies.map((_, i) => {
+        const xStart = Math.random() * 100;
+        const yStart = Math.random() * 100 + 20; // Start mostly lower
+        const xEnd = (Math.random() - 0.5) * 80 + 'vw';
+        const yEnd = -Math.random() * 100 - 50 + 'vh';
+        const dur = Math.random() * 6 + 4;
+        const del = Math.random() * 5;
+        const opacity = Math.random() * 0.4 + 0.2;
+
+        return (
+          <div
+            key={i}
+            className="absolute rounded-full bg-amber-200/80 shadow-[0_0_8px_rgba(253,230,138,0.8)] blur-[0.5px]"
+            style={{
+              width: Math.random() * 2 + 1.5 + 'px',
+              height: Math.random() * 2 + 1.5 + 'px',
+              left: `${xStart}%`,
+              top: `${yStart}%`,
+              animation: `firefly-float ${dur}s ease-in-out ${del}s infinite`,
+              '--x-end': xEnd,
+              '--y-end': yEnd,
+              '--firefly-opacity': opacity
+            } as React.CSSProperties}
+          />
+        );
+      })}
+    </div>
   );
 });
 
@@ -793,6 +838,9 @@ export default function App() {
           <FairyLights />
         </div>
       )}
+
+      {/* Lightweight CSS Fireflies for Mobile Only */}
+      {!showIntro && <MobileFireflies />}
 
       {/* Floating Letters Sequence */}
       {!showIntro && (
