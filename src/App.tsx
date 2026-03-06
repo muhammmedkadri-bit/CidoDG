@@ -496,14 +496,19 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
           const average = sum / dataArray.length;
 
           // Blowing creates huge low-frequency (bass) energy from wind noise on the mic.
-          // By checking only the lowest frequency bins (e.g. 0-5), we can distinguish blowing from background talking.
+          // By checking the lowest frequency bins (bass) and ensuring high frequencies (treble) are quiet,
+          // we can effectively ignore loud music, singing, or talking, since human voice/music has high frequencies.
           let lowSum = 0;
-          for (let i = 0; i < 5; i++) {
-            lowSum += dataArray[i];
-          }
-          const lowAverage = lowSum / 5;
+          let highSum = 0;
 
-          if (lowAverage > 220) { // Require a very strong, close-range wind rumble
+          for (let i = 0; i < 5; i++) lowSum += dataArray[i];
+          for (let i = 50; i < 100; i++) highSum += dataArray[i];
+
+          const lowAverage = Math.round(lowSum / 5);
+          const highAverage = Math.round(highSum / 50);
+
+          // Pure blow = Intense bass wind noise (> 230) + very little high frequency noise (< 80)
+          if (lowAverage > 230 && highAverage < 80) {
             setIsLit(false);
             onExtinguished();
             stopMic(); // Immediately kill mic on blow
@@ -526,20 +531,9 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
       } else {
         stopMic();
       }
-
-      // Extended fallback/manual off
-      fallbackTimer = setTimeout(() => {
-        if (isLit) {
-          // Auto shut off in 15 seconds regardless
-          setIsLit(false);
-          onExtinguished();
-          stopMic();
-        }
-      }, 15000);
     }
 
     return () => {
-      clearTimeout(fallbackTimer);
       stopMic();
     };
   }, [isLit, onExtinguished, isStartup]); // react to startup phase ending
@@ -1048,7 +1042,7 @@ export default function App() {
 
                 <div className="flex flex-col items-center">
                   <span className="text-white/80 font-serif italic tracking-widest text-sm mb-3 animate-pulse">
-                    Plağımız yerleştiriliyor...
+                    Başlıyoruz...
                   </span>
                   <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden shadow-inner">
                     <div
@@ -1061,10 +1055,17 @@ export default function App() {
             ) : (
               <button
                 onClick={handleStart}
-                className="group relative px-10 py-5 rounded-full overflow-hidden bg-white/5 border border-white/10 transition-all hover:bg-white/10 hover:border-white/25 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] backdrop-blur-sm mx-auto"
+                className="group relative px-10 py-5 rounded-full overflow-hidden bg-transparent transition-all hover:bg-white/5 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] mx-auto flex items-center justify-center min-w-[260px]"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
-                <span className="relative z-10 flex items-center justify-center gap-3 font-medium tracking-[0.2em] text-sm text-white/90 uppercase">
+                {/* Silver Animated Background Layer */}
+                <div className="absolute inset-[-50%] bg-[conic-gradient(from_0deg,transparent_0%,rgba(200,200,200,0.8)_20%,transparent_40%)] animate-[spin_4s_linear_infinite]" />
+
+                {/* Inner button surface */}
+                <div className="absolute inset-[2px] bg-zinc-900/90 rounded-full backdrop-blur-md" />
+
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite] rounded-full pointer-events-none" />
+
+                <span className="relative z-10 flex items-center justify-center gap-3 font-serif font-medium tracking-widest text-sm text-white/90 uppercase drop-shadow-md">
                   Hediyeyi ziyaret et <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform opacity-70" />
                 </span>
               </button>
