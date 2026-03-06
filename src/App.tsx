@@ -585,134 +585,203 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
           }
         }}
       >
-        {/* The Flame */}
-        <div className="absolute -top-16 w-16 h-28 flex justify-center z-30 pointer-events-none">
-          <AnimatePresence>
-            {isLit && (
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
-                transition={{ duration: 0.2 }}
-                className="relative w-8 h-20 origin-bottom animate-[candle-flicker_3s_infinite_ease-in-out]"
-              >
-                {/* Ambient Glow */}
-                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-orange-500/20 rounded-full blur-2xl z-10 pointer-events-none" />
+        {/* Flames & Candles '2' and '7' Wrapper */}
+        <div className="relative w-48 h-32 flex justify-center gap-6 z-30 mb-[10px] [transform:translateY(15px)]">
 
-                {/* Flame Outer Aura */}
-                <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-10 h-20 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none"
+          {/* ----- CANDLE '2' ----- */}
+          <div className="relative flex flex-col items-center drop-shadow-lg [transform:rotate(-5deg)]">
+            {/* The Flame 2 */}
+            <div className="absolute -top-[70px] w-16 h-28 flex justify-center z-40 pointer-events-none">
+              <AnimatePresence>
+                {isLit && (
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
+                    transition={{ duration: 0.2 }}
+                    className="relative w-7 h-16 origin-bottom animate-[candle-flicker_3s_infinite_ease-in-out]"
+                  >
+                    {/* Ambient Glow */}
+                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/20 rounded-full blur-xl z-10 pointer-events-none" />
+                    {/* Flame Outer Aura */}
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
+                    {/* Main Flame Body (Teardrop) */}
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
+                    {/* Flame Inner Core (White Hot) */}
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
+                    {/* Blue/Dark Base */}
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              {!isLit && (
+                <motion.div
+                  initial={{ opacity: 0, y: 0 }}
+                  animate={{ opacity: [0, 0.8, 0], y: -100, scale: 3, x: [0, -15, 10, -5] }}
+                  transition={{ duration: 3, ease: "easeOut" }}
+                  className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
                 />
+              )}
+            </div>
 
-                {/* Main Flame Body (Teardrop) */}
-                <div
-                  className="absolute bottom-1 left-1/2 -translate-x-1/2 w-6 h-14 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen"
+            {/* Wick 2 */}
+            <div className={cn(
+              "absolute -top-[14px] left-1/2 -translate-x-1/2 w-1 h-4 bg-zinc-900 rounded-t-full z-10",
+              isLit && "after:content-[''] after:absolute after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-red-500/50 after:rounded-full after:blur-[1px]"
+            )} />
+
+            {/* SVG '2' Body */}
+            <svg viewBox="0 0 50 80" className="w-[45px] h-[72px] z-20">
+              {/* Outer stroke/shadow layer */}
+              <text x="25" y="65" fontSize="70" fontWeight="900" fontFamily="Playfair Display, serif" textAnchor="middle" fill="#dc2626" stroke="#b91c1c" strokeWidth="3" className="drop-shadow-sm">2</text>
+              {/* Inner gradient/wax body */}
+              <text x="25" y="65" fontSize="70" fontWeight="900" fontFamily="Playfair Display, serif" textAnchor="middle" fill="url(#goldGrad)" stroke="white" strokeWidth="1">2</text>
+              <defs>
+                <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#fef08a" />
+                  <stop offset="100%" stopColor="#fbbf24" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35px] h-[60px] bg-red-500/0 shadow-[inset_0_0_10px_rgba(255,100,0,0.2)] rounded-lg pointer-events-none" />
+          </div>
+
+
+          {/* ----- CANDLE '7' ----- */}
+          <div className="relative flex flex-col items-center drop-shadow-lg [transform:rotate(3deg)]">
+            {/* The Flame 7 */}
+            <div className="absolute -top-[70px] w-16 h-28 flex justify-center z-40 pointer-events-none">
+              <AnimatePresence>
+                {isLit && (
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
+                    transition={{ duration: 0.2 }}
+                    className="relative w-7 h-16 origin-bottom animate-[candle-flicker_3.2s_infinite_ease-in-out_0.5s]"
+                  >
+                    {/* Ambient Glow */}
+                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/20 rounded-full blur-xl z-10 pointer-events-none" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              {!isLit && (
+                <motion.div
+                  initial={{ opacity: 0, y: 0 }}
+                  animate={{ opacity: [0, 0.8, 0], y: -100, scale: 3, x: [0, 15, -10, 5] }}
+                  transition={{ duration: 3, ease: "easeOut" }}
+                  className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
                 />
+              )}
+            </div>
 
-                {/* Flame Inner Core (White Hot) */}
-                <div
-                  className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2.5 h-6 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40"
-                />
+            {/* Wick 7 */}
+            <div className={cn(
+              "absolute -top-[14px] left-1/2 -translate-x-1/2 w-1 h-4 bg-zinc-900 rounded-t-full z-10",
+              isLit && "after:content-[''] after:absolute after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-red-500/50 after:rounded-full after:blur-[1px]"
+            )} />
 
-                {/* Blue/Dark Base of the flame */}
-                <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply"
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
+            {/* SVG '7' Body */}
+            <svg viewBox="0 0 50 80" className="w-[45px] h-[72px] z-20">
+              <text x="25" y="65" fontSize="70" fontWeight="900" fontFamily="Playfair Display, serif" textAnchor="middle" fill="#dc2626" stroke="#b91c1c" strokeWidth="3" className="drop-shadow-sm">7</text>
+              <text x="25" y="65" fontSize="70" fontWeight="900" fontFamily="Playfair Display, serif" textAnchor="middle" fill="url(#goldGrad7)" stroke="white" strokeWidth="1">7</text>
+              <defs>
+                <linearGradient id="goldGrad7" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#fef08a" />
+                  <stop offset="100%" stopColor="#fbbf24" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35px] h-[60px] bg-red-500/0 shadow-[inset_0_0_10px_rgba(255,100,0,0.2)] rounded-lg pointer-events-none" />
+          </div>
 
-          {/* Smoke after extinguishing */}
-          {!isLit && (
-            <motion.div
-              initial={{ opacity: 0, y: 0 }}
-              animate={{ opacity: [0, 0.8, 0], y: -100, scale: 4, x: [0, -20, 15, -10] }}
-              transition={{ duration: 3, ease: "easeOut" }}
-              className="absolute bottom-4 w-4 h-12 bg-gray-200/50 blur-xl rounded-full"
-            />
-          )}
         </div>
 
-        {/* The Candle */}
-        <div className="relative w-4 h-24 z-20 mb-[-10px] drop-shadow-lg">
-          {/* Top dark indented pool of the wick */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-2 bg-gradient-to-b from-zinc-800 to-transparent rounded-[50%] z-10 opacity-40 mix-blend-multiply" />
+        {/* Realistic Ladybug Cake Base */}
+        <div className="relative w-[340px] h-56 flex flex-col items-center z-10">
 
-          {/* Wick */}
-          <div className={cn(
-            "absolute -top-3 left-1/2 -translate-x-1/2 w-1 h-3 bg-zinc-900 rounded-t-full z-10",
-            isLit && "after:content-[''] after:absolute after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-red-500/50 after:rounded-full after:blur-[1px]"
-          )} />
-
-          {/* Candle Body */}
-          <div className="absolute inset-x-0 inset-y-0 mt-[-2px] bg-gradient-to-b from-amber-50/90 via-amber-100/90 to-amber-200/90 rounded-sm shadow-[inset_0_4px_10px_rgba(255,255,255,0.8),inset_0_-10px_20px_rgba(0,0,0,0.1)] border-x border-amber-300/40 overflow-hidden">
-            {/* Melting wax drip */}
-            <div className="absolute top-0 left-1 w-2 h-8 bg-gradient-to-b from-amber-50 to-transparent rounded-full opacity-60 blur-[0.5px]" />
-            <div className="absolute top-0 right-1.5 w-1.5 h-12 bg-gradient-to-b from-amber-50 to-transparent rounded-full opacity-50 blur-[0.5px]" />
-
-            {/* Soft internal lit glow when active */}
-            {isLit && (
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-16 bg-gradient-to-b from-orange-400/30 to-transparent blur-md" />
-            )}
-          </div>
-        </div>
-
-        {/* The White Chocolate Cake Base */}
-        <div className="relative w-72 h-36 flex flex-col items-center">
-          {/* Cake Top Surface */}
-          <div className="absolute top-0 w-72 h-20 bg-gradient-to-b from-[#fffbeb] to-[#fef3c7] rounded-[50%] border-t border-white shadow-[inset_0_-4px_10px_rgba(180,100,20,0.15)] z-20 flex items-center justify-center">
-
-            {/* Writing on the cake */}
-            <div className="absolute bottom-3 text-[#78350f] font-serif italic font-bold text-base leading-tight text-center [transform:rotateX(55deg)] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)] opacity-90 select-none">
-              Nice yaşlara<br />Çidoş
+          {/* Ladybug Head & Eyes */}
+          <div className="absolute -top-3 left-[40%] w-16 h-12 bg-gradient-to-br from-zinc-800 to-black rounded-full shadow-[inset_0_4px_4px_rgba(255,255,255,0.2),0_4px_10px_rgba(0,0,0,0.5)] z-10">
+            {/* Eyes */}
+            <div className="absolute top-3 left-2 w-4 h-4 bg-white text-white rounded-full flex items-center justify-center shadow-inner">
+              <div className="w-2 h-2 bg-black rounded-full [transform:translateX(1px)]" />
             </div>
-
-            {/* Gourmet Berries and Decorations */}
-            {/* Strawberry 1 */}
-            <div className="absolute top-4 left-10 w-4 h-5 bg-gradient-to-br from-red-500 to-red-700 rounded-t-full rounded-b-xl shadow-[2px_2px_4px_rgba(0,0,0,0.3)] [transform:rotateX(55deg)_rotate(-15deg)] z-30">
-              <div className="absolute top-0 left-1 w-2 h-1.5 bg-green-600 rounded-full" />
-              <div className="absolute top-1 left-1 w-0.5 h-0.5 bg-yellow-200/50 rounded-full" />
+            <div className="absolute top-3 right-2 w-4 h-4 bg-white text-white rounded-full flex items-center justify-center shadow-inner">
+              <div className="w-2 h-2 bg-black rounded-full [transform:translateX(-1px)]" />
             </div>
-            {/* Strawberry 2 */}
-            <div className="absolute top-12 right-20 w-5 h-6 bg-gradient-to-br from-red-500 to-red-800 rounded-t-full rounded-b-xl shadow-[3px_3px_5px_rgba(0,0,0,0.3)] [transform:rotateX(55deg)_rotate(35deg)] z-30">
-              <div className="absolute -top-0.5 left-1.5 w-2 h-2 bg-green-600 rounded-full" />
-              <div className="absolute top-2 left-1.5 w-1 h-1 bg-yellow-200/50 rounded-full" />
+            {/* Antennae */}
+            <div className="absolute -top-6 left-1 w-1 h-8 bg-zinc-800 rounded-full [transform:rotate(-25deg)]">
+              <div className="absolute -top-2 -left-1 w-3 h-3 bg-zinc-900 rounded-full" />
             </div>
-            {/* Strawberry 3 */}
-            <div className="absolute bottom-6 left-12 w-4 h-5 bg-gradient-to-br from-red-600 to-red-900 rounded-t-full rounded-b-xl shadow-[2px_2px_4px_rgba(0,0,0,0.3)] [transform:rotateX(55deg)_rotate(80deg)] z-30">
-              <div className="absolute top-0 right-1 w-1.5 h-1 bg-green-600 rounded-full" />
+            <div className="absolute -top-6 right-1 w-1 h-8 bg-zinc-800 rounded-full [transform:rotate(25deg)]">
+              <div className="absolute -top-2 -right-1 w-3 h-3 bg-zinc-900 rounded-full" />
             </div>
-            {/* Cherry 1 */}
-            <div className="absolute top-3 right-16 w-3.5 h-3.5 bg-red-800 rounded-full shadow-[2px_2px_4px_rgba(0,0,0,0.4)] [transform:rotateX(55deg)] z-30">
-              <div className="absolute bottom-2 left-1/2 w-4 h-4 rounded-tl-full border-t border-l border-[#4d2c18]" />
-            </div>
-            {/* Cherry 2 */}
-            <div className="absolute top-6 left-24 w-4 h-4 bg-red-800 rounded-full shadow-[2px_2px_4px_rgba(0,0,0,0.4)] [transform:rotateX(55deg)] z-30">
-              <div className="absolute bottom-2 right-1/2 w-4 h-5 rounded-tr-full border-t border-r border-[#4d2c18]" />
-            </div>
-
-            {/* Dollops of cream */}
-            <div className="absolute top-8 left-16 w-6 h-6 bg-white rounded-full shadow-sm [transform:rotateX(55deg)] blur-[0.5px]" />
-            <div className="absolute bottom-3 right-8 w-7 h-7 bg-white rounded-full shadow-sm [transform:rotateX(55deg)] blur-[0.5px]" />
-            <div className="absolute top-4 right-24 w-5 h-5 bg-white rounded-full shadow-sm [transform:rotateX(55deg)] blur-[0.5px]" />
+            {/* Cute Smile / Detailing */}
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-zinc-700/50 rounded-full" />
           </div>
 
-          {/* Cake Cylinder Body */}
-          <div className="absolute top-10 w-72 h-20 bg-gradient-to-b from-[#fef3c7] via-[#fde68a] to-[#fcd34d] rounded-b-[50%] shadow-[inset_0_-15px_30px_rgba(150,80,10,0.3)] z-10 overflow-hidden">
-            {/* Chocolate/Icing drips */}
-            <div className="absolute top-0 left-8 w-6 h-10 bg-[#fffbeb] rounded-b-full shadow-sm" />
-            <div className="absolute top-0 left-20 w-4 h-14 bg-[#fffbeb] rounded-b-full shadow-sm" />
-            <div className="absolute top-0 left-36 w-8 h-8 bg-[#fffbeb] rounded-b-full shadow-sm" />
-            <div className="absolute top-0 right-16 w-7 h-12 bg-[#fffbeb] rounded-b-full shadow-sm" />
-            <div className="absolute top-0 right-6 w-5 h-9 bg-[#fffbeb] rounded-b-full shadow-sm" />
-            <div className="absolute top-0 right-28 w-8 h-10 bg-[#fffbeb] rounded-b-full shadow-sm" />
+          {/* Main Ladybug Shell / Red Dome */}
+          <div className="absolute top-1 w-72 h-36 bg-gradient-to-b from-[#ef4444] via-[#dc2626] to-[#7f1d1d] rounded-[50%_50%_45%_45%] shadow-[inset_0_-15px_30px_rgba(80,0,0,0.7),inset_0_5px_15px_rgba(255,150,150,0.4),0_15px_25px_rgba(0,0,0,0.6)] z-20 border-b-[6px] border-[#450a0a] overflow-hidden drop-shadow-2xl flex justify-center">
+
+            {/* Center Split (Ladybug wings) */}
+            <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[3px] bg-gradient-to-b from-black via-[#3f3f46] to-black opacity-80" />
+
+            {/* Left Wing Spots */}
+            <div className="absolute top-6 left-10 w-10 h-10 bg-gradient-to-br from-zinc-800 to-black rounded-full shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.15)] [transform:rotate(-15deg)]" />
+            <div className="absolute top-16 left-20 w-12 h-12 bg-gradient-to-br from-zinc-800 to-black rounded-full shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.15)]" />
+            <div className="absolute bottom-4 left-6 w-9 h-7 bg-gradient-to-br from-zinc-800 to-black rounded-[50%] shadow-[inset_-1px_-1px_3px_rgba(255,255,255,0.15)] [transform:rotate(20deg)]" />
+
+            {/* Right Wing Spots */}
+            <div className="absolute top-5 right-12 w-11 h-11 bg-gradient-to-br from-zinc-800 to-black rounded-full shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.15)] [transform:rotate(15deg)]" />
+            <div className="absolute top-16 right-16 w-14 h-12 bg-gradient-to-br from-zinc-800 to-black rounded-[50%] shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.15)] [transform:rotate(-10deg)]" />
+            <div className="absolute bottom-6 right-8 w-8 h-8 bg-gradient-to-br from-zinc-800 to-black rounded-full shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.15)] [transform:rotate(-30deg)]" />
+
+            {/* Glossy Curved Highlight for 3D realism */}
+            <div className="absolute top-2 left-6 w-40 h-16 bg-gradient-to-b from-white/30 to-transparent rounded-[50%] blur-[2px] [transform:rotate(-10deg)] pointer-events-none" />
+            <div className="absolute top-4 right-8 w-24 h-10 bg-gradient-to-b from-white/20 to-transparent rounded-[50%] blur-[2px] [transform:rotate(15deg)] pointer-events-none" />
           </div>
 
-          {/* Cake Plate Base */}
-          <div className="absolute bottom-0 w-80 h-16 bg-gradient-to-b from-gray-200 via-gray-300 to-gray-500 rounded-[50%] shadow-[0_15px_30px_rgba(0,0,0,0.6)] z-0 border-b-4 border-gray-600 flex items-center justify-center">
-            {/* Inner plate rim */}
-            <div className="w-[90%] h-[80%] rounded-[50%] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7)] border-t border-gray-400/50" />
+          {/* Decorations Around the Base (Leaves & Daisies) */}
+          {/* Left Leaf 1 */}
+          <div className="absolute bottom-16 left-0 w-16 h-8 bg-gradient-to-r from-green-600 to-green-800 rounded-[0_100%_0_100%] shadow-lg z-10 [transform:rotate(15deg)] shadow-black/40">
+            <div className="w-full h-[1px] bg-green-900/40 mt-3" />
           </div>
+          {/* Left Leaf 2 */}
+          <div className="absolute bottom-10 left-6 w-14 h-6 bg-gradient-to-r from-emerald-500 to-emerald-700 rounded-[0_100%_0_100%] shadow-lg z-30 [transform:rotate(-20deg)] shadow-black/40" />
+
+          {/* Right Leaf 1 */}
+          <div className="absolute bottom-14 right-2 w-12 h-6 bg-gradient-to-l from-green-600 to-green-800 rounded-[100%_0_100%_0] shadow-lg z-10 [transform:rotate(-20deg)] shadow-black/40" />
+
+          {/* Daisy Decor Left */}
+          <div className="absolute bottom-12 left-2 w-10 h-10 z-40 bg-white rounded-full shadow-[0_4px_10px_rgba(0,0,0,0.5)] flex items-center justify-center [transform:rotate(45deg)] blur-[0.5px]">
+            {/* Petal Cuts */}
+            <div className="absolute w-8 h-8 bg-transparent border-4 border-dashed border-zinc-200 rounded-full opacity-50 block" />
+            <div className="relative w-4 h-4 bg-yellow-400 rounded-full shadow-[inset_1px_1px_3px_rgba(200,100,0,0.5)]" />
+          </div>
+
+          {/* Daisy Decor Right */}
+          <div className="absolute bottom-14 right-8 w-8 h-8 z-40 bg-white rounded-full shadow-[0_4px_8px_rgba(0,0,0,0.5)] flex items-center justify-center [transform:rotate(10deg)] blur-[0.5px]">
+            <div className="absolute w-6 h-6 bg-transparent border-[3px] border-dashed border-zinc-200 rounded-full opacity-50 block" />
+            <div className="relative w-3 h-3 bg-yellow-400 rounded-full shadow-[inset_1px_1px_3px_rgba(200,100,0,0.5)]" />
+          </div>
+
+          {/* Chocolate/Fondant Border Dots mapping the bottom of the cake */}
+          <div className="absolute bottom-16 w-72 h-8 z-30 flex gap-2 justify-between px-2 [transform:perspective(200px)_rotateX(40deg)] opacity-90">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="w-4 h-4 rounded-full bg-gradient-to-b from-[#8B4513] to-[#5D4037] shadow-[2px_2px_4px_rgba(0,0,0,0.5)]" />
+            ))}
+          </div>
+
+          {/* Cake Plate Thick Base */}
+          <div className="absolute bottom-5 w-[340px] h-[70px] bg-gradient-to-b from-gray-300 via-gray-400 to-gray-700 rounded-[50%] shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_5px_15px_rgba(255,255,255,0.7)] z-0 flex items-center justify-center">
+            {/* Inner Plate Ring */}
+            <div className="w-[88%] h-[75%] rounded-[50%] border-t border-gray-100/80 shadow-[inset_0_4px_10px_rgba(0,0,0,0.1)]" />
+          </div>
+
         </div>
       </div>
     </div>
