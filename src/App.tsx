@@ -734,8 +734,21 @@ export default function App() {
   const [isFinaleTriggered, setIsFinaleTriggered] = useState(false);
   const [isExtinguished, setIsExtinguished] = useState(false);
   const [hasSeenConfetti, setHasSeenConfetti] = useState(false);
+  const [isPlayingBaseAudio, setIsPlayingBaseAudio] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Note: Removed sync preloading of images to free up the main thread
+  useEffect(() => {
+    // Create the audio element pointing to an mp3 file in the public folder
+    const audio = new Audio('/song.mp3');
+    audio.loop = true;
+    audio.volume = 0; // We'll fade it in
+    audioRef.current = audio;
+
+    return () => {
+      audio.pause();
+      audio.src = '';
+    };
+  }, []);
   // during the initial load of the application. The images are now pre-loaded
   // fully explicitly via the user button click.
 
@@ -765,9 +778,27 @@ export default function App() {
     }));
 
     setTimeout(() => {
-      setIsLoading(false);
-      setShowIntro(false);
-    }, 800);
+      // Fade in the audio over 3 seconds
+      if (audioRef.current) {
+        audioRef.current.play().catch(e => console.warn("Audio autoplay blocked:", e));
+        let vol = 0;
+        const fade = setInterval(() => {
+          if (vol < 0.8) { // Target volume
+            vol += 0.05;
+            if (audioRef.current) audioRef.current.volume = Math.min(vol, 1);
+          } else {
+            clearInterval(fade);
+          }
+        }, 200);
+      }
+      setIsPlayingBaseAudio(true);
+
+      // Wait for needle animation to land (approx 1s) then hide intro
+      setTimeout(() => {
+        setIsLoading(false);
+        setShowIntro(false);
+      }, 1500);
+    }, 500);
   };
 
   // Make sure to resets triggers when moving away
@@ -937,18 +968,69 @@ export default function App() {
             </div>
             {isLoading ? (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex flex-col items-center justify-center space-y-6"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center justify-center space-y-8"
               >
-                <div className="w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
-                <div className="text-center space-y-2">
-                  <p className="text-white/80 font-serif italic text-lg tracking-wide animate-pulse">
-                    Hediyen düzenleniyor lütfen biraz bekle...
-                  </p>
-                  <p className="text-amber-500/80 font-mono text-sm tracking-[0.3em] font-medium">
-                    %{loadingProgress}
-                  </p>
+                {/* Vinyl Record Player */}
+                <div className="relative w-40 h-40">
+                  {/* Turntable Base */}
+                  <div className="absolute inset-0 bg-stone-900 rounded-[15%] shadow-[inset_0_2px_15px_rgba(0,0,0,0.8),0_10px_30px_rgba(0,0,0,0.8)] border border-white/5 overflow-hidden flex items-center justify-center">
+                    <div className="absolute top-2 right-2 w-3 h-3 rounded-full bg-red-500/80 shadow-[0_0_8px_red]" />
+                  </div>
+
+                  {/* Record Platter / Vinyl */}
+                  <div className="absolute inset-2 flex items-center justify-center">
+                    <div className={cn(
+                      "w-32 h-32 bg-zinc-950 rounded-full shadow-[0_4px_10px_rgba(0,0,0,0.8)] border-2 border-stone-800 flex items-center justify-center relative",
+                      isPlayingBaseAudio ? "animate-[spin-record_2s_linear_infinite]" : ""
+                    )}>
+                      {/* Vinyl Grooves */}
+                      <div className="absolute inset-2 border border-white/10 rounded-full mix-blend-screen" />
+                      <div className="absolute inset-4 border border-white/10 rounded-full mix-blend-screen" />
+                      <div className="absolute inset-6 border border-white/10 rounded-full mix-blend-screen" />
+
+                      {/* Vinyl Center Label */}
+                      <div className="w-10 h-10 bg-amber-600 rounded-full flex items-center justify-center outline outline-1 outline-black shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]">
+                        {/* Spindle hole */}
+                        <div className="w-1.5 h-1.5 bg-zinc-400 rounded-full shadow-inner" />
+                      </div>
+
+                      {/* Gloss Reflection */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent rounded-full mix-blend-overlay pointer-events-none" />
+                    </div>
+                  </div>
+
+                  {/* Record Player Arm / Needle */}
+                  {/* It rests at -30deg. When audio plays, we drop it to 0deg (over the record) */}
+                  <div className="absolute top-4 right-4 z-10 w-6 h-24 origin-[top_center] pointer-events-none">
+                    <div className={cn(
+                      "w-full h-full origin-[80%_10%] transition-transform duration-1000 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+                      isPlayingBaseAudio ? "rotate-12" : "-rotate-12"
+                    )}>
+                      {/* Base Pivot */}
+                      <div className="w-5 h-5 bg-zinc-400 rounded-full shadow-lg ml-auto border border-zinc-300" />
+                      {/* Tonearm */}
+                      <div className="w-1 h-20 bg-gradient-to-r from-zinc-400 to-zinc-300 mx-auto -mt-2 rounded-full shadow-md" />
+                      {/* Cartridge/Needle Body */}
+                      <div className="w-3.5 h-6 bg-zinc-800 mx-auto -mt-1 rounded-sm shadow-xl flex justify-end">
+                        {/* Literal Needle Tip */}
+                        <div className="w-0.5 h-2 bg-white/50 -ml-1 mt-5" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <span className="text-white/80 font-serif italic tracking-widest text-sm mb-3 animate-pulse">
+                    Plağımız yerleştiriliyor...
+                  </span>
+                  <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden shadow-inner">
+                    <div
+                      className="h-full bg-amber-500/80 transition-all duration-300 ease-out"
+                      style={{ width: `${loadingProgress}%` }}
+                    />
+                  </div>
                 </div>
               </motion.div>
             ) : (
