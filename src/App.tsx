@@ -50,7 +50,7 @@ const SAMPLE_MEMORIES: Memory[] = [
   {
     id: '2',
     title: 'Aylar sonra rastgele bir story',
-    description: 'Sanırım kader bize inatla bir hikaye yazdırmaya kararlıydı. Ortak arkadaşlardan birinin hikayesinde görüp istek atmamla, haftalarca o isteğin kabul nöbetinde beklemek zorluydu...',
+    description: 'Sanırım kader bize inatla bir hikaye yazdırmaya kararlıydı. Ortak arkadaşlardan birinin hikayesinde görüp istek atmam, haftlaraca isteğin kabul nöbetinde yatıp kalkmam... Zorlu bir süreçti.',
     imageUrl: 'https://i.hizliresim.com/jj174xu.png',
     location: 'Cizre'
   },
