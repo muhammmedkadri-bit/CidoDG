@@ -277,30 +277,33 @@ const CoverFlowCard: React.FC<CoverFlowCardProps> = ({ memory, index, activeInde
 };
 
 const StarlightBackground = () => {
-  const stars = useMemo(() => Array.from({ length: 150 }), []);
+  const stars = useMemo(() => Array.from({ length: 80 }), []);
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-[#050505]">
-      {stars.map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: Math.random() * 0.5 + 0.1 }}
-          animate={{ opacity: [Math.random() * 0.4 + 0.1, Math.random() * 0.8 + 0.4, Math.random() * 0.4 + 0.1] }}
-          transition={{
-            duration: Math.random() * 4 + 2,
-            repeat: Infinity,
-            delay: Math.random() * 5,
-            ease: "easeInOut"
-          }}
-          className="absolute rounded-full bg-white blur-[0.5px]"
-          style={{
-            width: Math.random() * 1.5 + 0.5 + 'px',
-            height: Math.random() * 1.5 + 0.5 + 'px',
-            top: Math.random() * 100 + "%",
-            left: Math.random() * 100 + "%",
-          }}
-        />
-      ))}
+      {stars.map((_, i) => {
+        const minOp = Math.random() * 0.3 + 0.1;
+        const maxOp = Math.random() * 0.7 + 0.3;
+        const dur = Math.random() * 4 + 2;
+        const del = Math.random() * 5;
+
+        return (
+          <div
+            key={i}
+            className="absolute rounded-full bg-white blur-[0.5px]"
+            style={{
+              width: Math.random() * 1.5 + 0.5 + 'px',
+              height: Math.random() * 1.5 + 0.5 + 'px',
+              top: Math.random() * 100 + "%",
+              left: Math.random() * 100 + "%",
+              opacity: minOp,
+              animation: `starlight ${dur}s ease-in-out ${del}s infinite`,
+              '--min-opacity': minOp,
+              '--max-opacity': maxOp
+            } as React.CSSProperties}
+          />
+        );
+      })}
     </div>
   );
 };
@@ -314,20 +317,23 @@ const FairyLights = () => {
         <path d="M0,5 Q20,80 50,40 T100,50" stroke="white" strokeWidth="1" fill="none" />
         <path d="M0,45 Q30,90 70,30 T100,20" stroke="white" strokeWidth="1" fill="none" />
       </svg>
-      {Array.from({ length: bulbCount }).map((_, i) => (
-        <motion.div
-          key={i}
-          animate={{ opacity: [0.3, 1, 0.3], scale: [0.9, 1.1, 0.9] }}
-          transition={{ duration: Math.random() * 2 + 1.5, repeat: Infinity, delay: Math.random() * 2 }}
-          className="absolute rounded-full bg-yellow-100 shadow-[0_0_15px_rgba(253,224,71,0.9),0_0_30px_rgba(253,224,71,0.4)] blur-[1px]"
-          style={{
-            width: Math.random() * 4 + 4 + 'px',
-            height: Math.random() * 4 + 4 + 'px',
-            left: `${(i * (100 / bulbCount)) + Math.random() * 5}%`,
-            top: `${Math.random() * 60 + 10}px`
-          }}
-        />
-      ))}
+      {Array.from({ length: bulbCount }).map((_, i) => {
+        const dur = Math.random() * 2 + 1.5;
+        const del = Math.random() * 2;
+        return (
+          <div
+            key={i}
+            className="absolute rounded-full bg-yellow-100 shadow-[0_0_15px_rgba(253,224,71,0.9),0_0_30px_rgba(253,224,71,0.4)] blur-[1px]"
+            style={{
+              width: Math.random() * 4 + 4 + 'px',
+              height: Math.random() * 4 + 4 + 'px',
+              left: `${(i * (100 / bulbCount)) + Math.random() * 5}%`,
+              top: `${Math.random() * 60 + 10}px`,
+              animation: `fairy-light ${dur}s ease-in-out ${del}s infinite`
+            }}
+          />
+        );
+      })}
     </div>
   );
 };
