@@ -585,207 +585,78 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
           }
         }}
       >
-        {/* Flames & Candles '2' and '7' Wrapper */}
-        <div className="relative w-48 h-32 flex justify-center gap-6 z-30 mb-[10px] [transform:translateY(15px)]">
+        {/* Custom Cake Container */}
+        <div className="relative w-[340px] md:w-[400px] flex items-center justify-center flex-col scale-[1.3] md:scale-[1.4] translate-y-16 pointer-events-none drop-shadow-2xl">
+           <img 
+              src="/pasta.png" 
+              alt="Custom Birthday Cake" 
+              className="w-full h-auto object-contain z-10"
+           />
 
-          {/* ----- CANDLE '2' ----- */}
-          <div className="relative flex flex-col items-center drop-shadow-[0_8px_8px_rgba(0,0,0,0.5)] [transform:rotate(-5deg)]">
-            {/* The Flame 2 */}
-            <div className="absolute -top-[70px] w-16 h-28 flex justify-center z-40 pointer-events-none">
-              <AnimatePresence>
-                {isLit && (
+           {/* --- Flame Dual Wrapper overlaying the image --- */}
+           <div className="absolute inset-0 z-30 pointer-events-none flex justify-center">
+
+             {/* Flame Left (Number 2) positioned over the purple triangle */}
+             <div className="absolute top-[8.5%] left-[37%] -translate-x-1/2 -mt-[50px] w-16 h-28 flex justify-center pointer-events-none drop-[0_4px_4px_rgba(0,0,0,0.5)]">
+                <AnimatePresence>
+                  {isLit && (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
+                      transition={{ duration: 0.2 }}
+                      className="relative w-6 h-14 sm:w-8 sm:h-16 origin-bottom animate-[candle-flicker_3s_infinite_ease-in-out]"
+                    >
+                      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/15 rounded-full blur-xl z-10 pointer-events-none" />
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
+                      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
+                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                {!isLit && (
                   <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
-                    transition={{ duration: 0.2 }}
-                    className="relative w-7 h-16 origin-bottom animate-[candle-flicker_3s_infinite_ease-in-out]"
-                  >
-                    {/* Ambient Glow */}
-                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/20 rounded-full blur-xl z-10 pointer-events-none" />
-                    {/* Flame Outer Aura */}
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
-                    {/* Main Flame Body (Teardrop) */}
-                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
-                    {/* Flame Inner Core (White Hot) */}
-                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
-                    {/* Blue/Dark Base */}
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
-                  </motion.div>
+                    initial={{ opacity: 0, y: 0 }}
+                    animate={{ opacity: [0, 0.8, 0], y: -80, scale: 3, x: [0, -15, 10, -5] }}
+                    transition={{ duration: 3, ease: "easeOut" }}
+                    className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
+                  />
                 )}
-              </AnimatePresence>
-              {!isLit && (
-                <motion.div
-                  initial={{ opacity: 0, y: 0 }}
-                  animate={{ opacity: [0, 0.8, 0], y: -100, scale: 3, x: [0, -15, 10, -5] }}
-                  transition={{ duration: 3, ease: "easeOut" }}
-                  className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
-                />
-              )}
-            </div>
+             </div>
 
-            {/* Wick 2 */}
-            <div className={cn(
-              "absolute -top-[14px] left-1/2 -translate-x-1/2 w-1 h-4 bg-zinc-900 rounded-t-full z-10",
-              isLit && "after:content-[''] after:absolute after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-red-500/50 after:rounded-full after:blur-[1px]"
-            )} />
-
-            {/* SVG '2' Body */}
-            <svg viewBox="0 0 50 80" className="w-[45px] h-[72px] z-20 overflow-visible">
-              <defs>
-                <linearGradient id="waxRed" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#ef4444" />
-                  <stop offset="20%" stopColor="#fca5a5" />
-                  <stop offset="50%" stopColor="#dc2626" />
-                  <stop offset="80%" stopColor="#991b1b" />
-                  <stop offset="100%" stopColor="#450a0a" />
-                </linearGradient>
-                <filter id="bevel">
-                  <feDropShadow dx="2" dy="5" stdDeviation="3" floodColor="#000" floodOpacity="0.4" />
-                </filter>
-              </defs>
-              <text x="25" y="65" fontSize="70" fontWeight="900" fontFamily="Playfair Display, serif" textAnchor="middle" fill="url(#waxRed)" stroke="#f87171" strokeWidth="1" filter="url(#bevel)">2</text>
-              <path d="M 22 18 Q 24 28 20 32 Q 18 30 25 30 Z" fill="#fca5a5" opacity="0.6" />
-            </svg>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35px] h-[60px] shadow-[inset_0_0_15px_rgba(255,100,100,0.3)] rounded-lg pointer-events-none" />
-          </div>
-
-
-          {/* ----- CANDLE '7' ----- */}
-          <div className="relative flex flex-col items-center drop-shadow-[0_8px_8px_rgba(0,0,0,0.5)] [transform:rotate(4deg)]">
-            {/* The Flame 7 */}
-            <div className="absolute -top-[70px] w-16 h-28 flex justify-center z-40 pointer-events-none">
-              <AnimatePresence>
-                {isLit && (
+             {/* Flame Right (Number 7) positioned over the purple triangle */}
+             <div className="absolute top-[8.5%] left-[58%] -translate-x-1/2 -mt-[50px] w-16 h-28 flex justify-center pointer-events-none drop-[0_4px_4px_rgba(0,0,0,0.5)]">
+                <AnimatePresence>
+                  {isLit && (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
+                      transition={{ duration: 0.2 }}
+                      className="relative w-6 h-14 sm:w-8 sm:h-16 origin-bottom animate-[candle-flicker_3.2s_infinite_ease-in-out_0.5s]"
+                    >
+                      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/15 rounded-full blur-xl z-10 pointer-events-none" />
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
+                      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
+                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                {!isLit && (
                   <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
-                    transition={{ duration: 0.2 }}
-                    className="relative w-7 h-16 origin-bottom animate-[candle-flicker_3.2s_infinite_ease-in-out_0.5s]"
-                  >
-                    {/* Ambient Glow */}
-                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/20 rounded-full blur-xl z-10 pointer-events-none" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
-                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
-                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
-                  </motion.div>
+                    initial={{ opacity: 0, y: 0 }}
+                    animate={{ opacity: [0, 0.8, 0], y: -80, scale: 3, x: [0, 15, -10, 5] }}
+                    transition={{ duration: 3, ease: "easeOut" }}
+                    className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
+                  />
                 )}
-              </AnimatePresence>
-              {!isLit && (
-                <motion.div
-                  initial={{ opacity: 0, y: 0 }}
-                  animate={{ opacity: [0, 0.8, 0], y: -100, scale: 3, x: [0, 15, -10, 5] }}
-                  transition={{ duration: 3, ease: "easeOut" }}
-                  className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
-                />
-              )}
-            </div>
+             </div>
 
-            {/* Wick 7 */}
-            <div className={cn(
-              "absolute -top-[14px] left-1/2 -translate-x-1/2 w-1 h-4 bg-zinc-900 rounded-t-full z-10",
-              isLit && "after:content-[''] after:absolute after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-red-500/50 after:rounded-full after:blur-[1px]"
-            )} />
-
-            {/* SVG '7' Body */}
-            <svg viewBox="0 0 50 80" className="w-[45px] h-[72px] z-20 overflow-visible">
-              <text x="25" y="65" fontSize="70" fontWeight="900" fontFamily="Playfair Display, serif" textAnchor="middle" fill="url(#waxRed)" stroke="#f87171" strokeWidth="1" filter="url(#bevel)">7</text>
-              <path d="M 32 15 Q 34 26 31 32 Q 29 28 30 20 Z" fill="#fca5a5" opacity="0.6" />
-            </svg>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35px] h-[60px] shadow-[inset_0_0_15px_rgba(255,100,100,0.3)] rounded-lg pointer-events-none" />
-          </div>
-
+           </div>
         </div>
 
-        {/* ----- Highly Realistic White Chocolate & Fruit Cake Base ----- */}
-        <div className="relative w-[340px] h-60 flex flex-col items-center z-10">
-
-          {/* Cake Main Body (Cylinder Front) */}
-          <div className="absolute top-10 w-[300px] h-32 bg-gradient-to-b from-[#fefaf0] via-[#f1e6d8] to-[#e6d0b3] rounded-b-[50%] shadow-[inset_0_-20px_40px_rgba(150,100,50,0.3),0_20px_35px_rgba(0,0,0,0.6)] z-10 overflow-hidden">
-            {/* Realistic Cake Texture / Sponge Dots */}
-            <div className="absolute inset-0 opacity-40 mix-blend-multiply flex flex-wrap gap-1 p-2">
-              {Array.from({ length: 80 }).map((_, i) => <div key={i} className="w-1 h-1 bg-amber-900/10 rounded-full" style={{ marginLeft: Math.random() * 15 + 'px', marginTop: Math.random() * 5 + 'px' }} />)}
-            </div>
-          </div>
-
-          {/* White Chocolate Dripping Ganache */}
-          <div className="absolute top-10 w-[300px] h-20 z-20 pointer-events-none drop-shadow-[0_4px_6px_rgba(180,120,60,0.4)]">
-            <div className="absolute top-0 left-2 w-8 h-12 bg-[#fffdf5] rounded-b-full shadow-[inset_-3px_-3px_6px_rgba(0,0,0,0.06)]" />
-            <div className="absolute top-0 left-8 w-6 h-16 bg-[#fffdf5] rounded-b-full shadow-[inset_-3px_-3px_6px_rgba(0,0,0,0.06)]" />
-            <div className="absolute top-0 left-16 w-11 h-9 bg-[#fffdf5] rounded-b-full shadow-[inset_-3px_-3px_6px_rgba(0,0,0,0.06)]" />
-            <div className="absolute top-0 left-24 w-7 h-14 bg-[#fffdf5] rounded-b-full shadow-[inset_-3px_-3px_6px_rgba(0,0,0,0.06)]" />
-            <div className="absolute top-0 left-34 w-12 h-10 bg-[#fffdf5] rounded-b-full shadow-[inset_-3px_-3px_6px_rgba(0,0,0,0.06)]" />
-            <div className="absolute top-0 right-32 w-8 h-12 bg-[#fffdf5] rounded-b-full shadow-[inset_-3px_-3px_6px_rgba(0,0,0,0.06)]" />
-            <div className="absolute top-0 right-20 w-10 h-16 bg-[#fffdf5] rounded-b-full shadow-[inset_-3px_-3px_6px_rgba(0,0,0,0.06)]" />
-            <div className="absolute top-0 right-10 w-9 h-11 bg-[#fffdf5] rounded-b-full shadow-[inset_-3px_-3px_6px_rgba(0,0,0,0.06)]" />
-            <div className="absolute top-0 right-2 w-7 h-15 bg-[#fffdf5] rounded-b-full shadow-[inset_-3px_-3px_6px_rgba(0,0,0,0.06)]" />
-          </div>
-
-          {/* Cake Top Surface (Creamy White Chocolate) */}
-          <div className="absolute top-0 w-[300px] h-[100px] bg-gradient-to-br from-[#ffffff] via-[#fffdf5] to-[#f4e6d3] rounded-[50%] border-t border-white shadow-[inset_0_-8px_20px_rgba(180,120,60,0.15)] z-20 flex items-center justify-center">
-
-            {/* Calligraphy Writing on Cake */}
-            <div className="absolute bottom-3 text-[#5d4037] font-serif italic font-bold text-[22px] leading-[1.1] text-center [transform:rotateX(55deg)] drop-shadow-[0_1px_1px_rgba(255,255,255,1)] opacity-90 select-none tracking-wide z-10 w-full">
-              İyi ki doğdun<br />Çidoş
-            </div>
-
-            {/* Whipped Cream Base Dollops */}
-            <div className="absolute top-2 left-10 w-10 h-8 bg-gradient-to-b from-[#ffffff] to-[#e2e8f0] rounded-full shadow-[2px_2px_5px_rgba(0,0,0,0.3)] blur-[0.5px] [transform:rotateX(55deg)] z-20" />
-            <div className="absolute top-8 right-8 w-12 h-10 bg-gradient-to-b from-[#ffffff] to-[#e2e8f0] rounded-full shadow-[2px_2px_5px_rgba(0,0,0,0.3)] blur-[0.5px] [transform:rotateX(55deg)] z-20" />
-            <div className="absolute bottom-6 left-16 w-14 h-11 bg-gradient-to-b from-[#ffffff] to-[#e2e8f0] rounded-full shadow-[2px_2px_5px_rgba(0,0,0,0.3)] blur-[0.5px] [transform:rotateX(55deg)] z-20" />
-
-            {/* 3D Strawberries */}
-            <div className="absolute top-1 left-12 w-6 h-8 bg-gradient-to-br from-[#ef4444] via-[#b91c1c] to-[#7f1d1d] rounded-t-[40%] rounded-b-[60%] shadow-[3px_5px_8px_rgba(0,0,0,0.5),inset_-2px_-2px_5px_rgba(0,0,0,0.3),inset_2px_2px_4px_rgba(255,255,255,0.4)] [transform:rotateX(55deg)_rotate(-25deg)] z-30 flex justify-center">
-              <div className="absolute -top-1 w-4 h-3 bg-green-700 rounded-full [transform:rotate(20deg)] shadow-sm" />
-              <div className="absolute -top-1 w-3 h-4 bg-green-600 rounded-full [transform:rotate(-30deg)] shadow-sm" />
-              {Array.from({ length: 6 }).map((_, i) => <div key={i} className="absolute w-[1.5px] h-[2px] bg-yellow-300/80 rounded-full" style={{ top: `${20 + i * 10}%`, left: `${20 + (i % 3) * 20}%` }} />)}
-            </div>
-
-            {/* Sliced Strawberry half */}
-            <div className="absolute top-6 right-14 w-8 h-6 bg-gradient-to-r from-red-200 via-white to-red-100 rounded-t-[20%] rounded-b-full shadow-[2px_4px_6px_rgba(0,0,0,0.4)] [transform:rotateX(40deg)_rotate(45deg)] z-30 border-t-4 border-red-600 overflow-hidden">
-              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-4 h-4 border-2 border-red-200 rounded-full opacity-50" />
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-2 h-2 border border-red-300 rounded-full opacity-50" />
-            </div>
-
-            {/* Blueberries/Blackberries */}
-            <div className="absolute bottom-4 left-14 w-4 h-4 bg-gradient-to-br from-[#1e3a8a] via-[#172554] to-black rounded-full shadow-[2px_3px_5px_rgba(0,0,0,0.6),inset_1px_1px_2px_rgba(255,255,255,0.4)] z-30 [transform:rotateX(30deg)]"><div className="absolute top-1 left-1 w-1.5 h-1.5 border border-[#0f172a] rounded-full opacity-80" /></div>
-            <div className="absolute bottom-2 left-18 w-5 h-5 bg-gradient-to-br from-[#1e3a8a] via-[#172554] to-black rounded-full shadow-[2px_3px_5px_rgba(0,0,0,0.6),inset_1px_1px_2px_rgba(255,255,255,0.4)] z-30 [transform:rotateX(30deg)]"><div className="absolute top-1 left-1.5 w-1.5 h-1.5 border border-[#0f172a] rounded-full opacity-80" /></div>
-            <div className="absolute bottom-8 left-20 w-4.5 h-4.5 bg-gradient-to-br from-[#1e3a8a] via-[#172554] to-black rounded-full shadow-[2px_3px_5px_rgba(0,0,0,0.6),inset_1px_1px_2px_rgba(255,255,255,0.4)] z-20 [transform:rotateX(30deg)]"><div className="absolute top-1 left-1 w-1.5 h-1.5 border border-[#0f172a] rounded-full opacity-80" /></div>
-
-            {/* Kiwi Slice */}
-            <div className="absolute top-10 left-5 w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-full border-[3px] border-emerald-800/80 shadow-[2px_4px_6px_rgba(0,0,0,0.5)] [transform:rotateX(60deg)_rotate(10deg)] z-20 flex items-center justify-center overflow-hidden">
-              <div className="w-4 h-4 bg-yellow-100 rounded-full blur-[2px]" />
-              {Array.from({ length: 8 }).map((_, i) => <div key={`s-${i}`} className="absolute w-[2px] h-[3px] bg-black rounded-full" style={{ top: '40%', left: '45%', transform: `rotate(${i * 45}deg) translateY(6px)` }} />)}
-            </div>
-
-            {/* Elegant Chocolate Shards */}
-            <div className="absolute top-4 right-20 w-3 h-10 bg-gradient-to-b from-[#3f2011] to-[#1f0d05] rounded-full shadow-[2px_4px_6px_rgba(0,0,0,0.5),inset_1px_0_1px_rgba(255,255,255,0.2)] [transform:rotateX(60deg)_rotate(-45deg)] z-40" />
-            <div className="absolute top-3 right-24 w-2 h-7 bg-gradient-to-b from-[#4a2717] to-[#261107] rounded-full shadow-[2px_4px_6px_rgba(0,0,0,0.5),inset_1px_0_1px_rgba(255,255,255,0.2)] [transform:rotateX(60deg)_rotate(-20deg)] z-30" />
-            <div className="absolute top-6 right-26 w-[2px] h-6 bg-[#261107] rounded-full shadow-lg [transform:rotateX(60deg)_rotate(-60deg)] z-30" />
-
-            {/* Dark Cherry Backdrop */}
-            <div className="absolute bottom-10 right-14 w-6 h-6 bg-gradient-to-br from-[#991b1b] to-[#450a0a] rounded-full shadow-[2px_4px_6px_rgba(0,0,0,0.6),inset_1px_1px_2px_rgba(255,255,255,0.5)] [transform:rotateX(55deg)] z-30">
-              <div className="absolute top-1 left-3 w-[1px] h-6 bg-[#5D4037] [transform:rotate(15deg)] origin-bottom" />
-            </div>
-
-            {/* Delicate powdered sugar layer */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.4)_0%,transparent_70%)] rounded-[50%] blur-[2px] z-10 pointer-events-none" />
-          </div>
-
-          {/* Elegant Slate & Gold Cake Plate */}
-          <div className="absolute bottom-2 w-[350px] h-[65px] bg-gradient-to-b from-[#e2e8f0] via-[#cbd5e1] to-[#64748b] rounded-[50%] shadow-[0_25px_40px_rgba(0,0,0,0.8),inset_0_4px_8px_rgba(255,255,255,0.9)] z-0 flex items-center justify-center border-b-4 border-[#475569]">
-            {/* Inner Plate Ring Detail */}
-            <div className="w-[88%] h-[75%] rounded-[50%] border-t-[3px] border-[#fde047]/60 shadow-[inset_0_6px_10px_rgba(0,0,0,0.15)] flex justify-center items-center">
-              <div className="w-[95%] h-[90%] rounded-[50%] border-t border-[#fde047]/30" />
-            </div>
-          </div>
-
-          {/* Subtle Ambient shadow cast by the plate */}
-          <div className="absolute -bottom-8 w-[280px] h-12 bg-black/60 rounded-[50%] blur-xl z-[-1]" />
-        </div>
-      </div>
     </div>
   );
 }
