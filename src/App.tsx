@@ -594,62 +594,68 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
           />
 
           {/* --- Flame Dual Wrapper overlaying the image --- */}
-          <div className="absolute inset-0 z-30 pointer-events-none flex justify-center">
+          <div className="absolute inset-0 z-30 pointer-events-none">
 
-            {/* Flame Left (Number 2) positioned over the purple triangle */}
-            <div className="absolute top-[8.5%] left-[37%] -translate-x-1/2 -mt-[50px] w-16 h-28 flex justify-center pointer-events-none drop-[0_4px_4px_rgba(0,0,0,0.5)]">
+            {/* Flame Left (Number 2) — blue base anchored to the candle tip triangle */}
+            <div
+              className="absolute w-14 h-28 flex items-end justify-center pointer-events-none"
+              style={{ bottom: '56.5%', left: '32%', transform: 'translateX(-50%)' }}
+            >
               <AnimatePresence>
                 {isLit && (
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
+                    exit={{ scale: 0, opacity: 0, y: -40, filter: 'blur(15px)' }}
                     transition={{ duration: 0.2 }}
-                    className="relative w-6 h-14 sm:w-8 sm:h-16 origin-bottom animate-[candle-flicker_3s_infinite_ease-in-out]"
+                    className="relative w-6 h-14 origin-bottom animate-[candle-flicker_3s_infinite_ease-in-out]"
                   >
-                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/15 rounded-full blur-xl z-10 pointer-events-none" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
-                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
-                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-24 h-24 bg-orange-500/15 rounded-full blur-xl z-10" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-7 h-14 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen" />
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-10 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_18px_rgba(255,150,0,0.8)] blur-[1px] z-30 mix-blend-screen" />
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-4 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_8px_white] z-40" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
                   </motion.div>
                 )}
               </AnimatePresence>
               {!isLit && (
                 <motion.div
                   initial={{ opacity: 0, y: 0 }}
-                  animate={{ opacity: [0, 0.8, 0], y: -80, scale: 3, x: [0, -15, 10, -5] }}
-                  transition={{ duration: 3, ease: "easeOut" }}
-                  className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
+                  animate={{ opacity: [0, 0.7, 0], y: -70, scale: 2.5, x: [0, -12, 8, -4] }}
+                  transition={{ duration: 3, ease: 'easeOut' }}
+                  className="absolute bottom-0 w-2.5 h-8 bg-gray-200/50 blur-xl rounded-full"
                 />
               )}
             </div>
 
-            {/* Flame Right (Number 7) positioned over the purple triangle */}
-            <div className="absolute top-[8.5%] left-[58%] -translate-x-1/2 -mt-[50px] w-16 h-28 flex justify-center pointer-events-none drop-[0_4px_4px_rgba(0,0,0,0.5)]">
+            {/* Flame Right (Number 7) — blue base anchored to the candle tip triangle */}
+            <div
+              className="absolute w-14 h-28 flex items-end justify-center pointer-events-none"
+              style={{ bottom: '56.5%', left: '57%', transform: 'translateX(-50%)' }}
+            >
               <AnimatePresence>
                 {isLit && (
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
+                    exit={{ scale: 0, opacity: 0, y: -40, filter: 'blur(15px)' }}
                     transition={{ duration: 0.2 }}
-                    className="relative w-6 h-14 sm:w-8 sm:h-16 origin-bottom animate-[candle-flicker_3.2s_infinite_ease-in-out_0.5s]"
+                    className="relative w-6 h-14 origin-bottom animate-[candle-flicker_3.2s_infinite_ease-in-out_0.5s]"
                   >
-                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/15 rounded-full blur-xl z-10 pointer-events-none" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
-                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
-                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-24 h-24 bg-orange-500/15 rounded-full blur-xl z-10" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-7 h-14 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen" />
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-10 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_18px_rgba(255,150,0,0.8)] blur-[1px] z-30 mix-blend-screen" />
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-4 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_8px_white] z-40" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
                   </motion.div>
                 )}
               </AnimatePresence>
               {!isLit && (
                 <motion.div
                   initial={{ opacity: 0, y: 0 }}
-                  animate={{ opacity: [0, 0.8, 0], y: -80, scale: 3, x: [0, 15, -10, 5] }}
-                  transition={{ duration: 3, ease: "easeOut" }}
-                  className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
+                  animate={{ opacity: [0, 0.7, 0], y: -70, scale: 2.5, x: [0, 12, -8, 4] }}
+                  transition={{ duration: 3, ease: 'easeOut' }}
+                  className="absolute bottom-0 w-2.5 h-8 bg-gray-200/50 blur-xl rounded-full"
                 />
               )}
             </div>
@@ -693,9 +699,17 @@ export default function App() {
 
     setIsLoading(true);
     let loaded = 0;
-    const total = displayMemories.length;
+    // +1 for pasta.png preload
+    const total = displayMemories.length + 1;
 
-    await Promise.all(displayMemories.map(memory => {
+    // Preload the birthday cake image along with all memory photos so it's
+    // already in the browser cache when the final InteractiveCandle card appears.
+    const preloadUrls = [
+      ...displayMemories.map(m => m.imageUrl),
+      '/pasta.png',
+    ];
+
+    await Promise.all(preloadUrls.map(src => {
       return new Promise((resolve) => {
         const img = new Image();
         img.onload = () => {
@@ -708,7 +722,7 @@ export default function App() {
           setLoadingProgress(Math.round((loaded / total) * 100));
           resolve(false);
         };
-        img.src = memory.imageUrl;
+        img.src = src;
       });
     }));
 
