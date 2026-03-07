@@ -599,7 +599,7 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
             {/* Flame Left (Number 2) — blue base anchored to the candle tip triangle */}
             <div
               className="absolute w-14 h-28 flex items-end justify-center pointer-events-none"
-              style={{ bottom: '56.5%', left: '32%', transform: 'translate(calc(-50% + 32px), -135px)' }}
+              style={{ bottom: '56.5%', left: '32%', transform: 'translate(calc(-50% + 32px), -132px)' }}
             >
               <AnimatePresence>
                 {isLit && (
@@ -631,7 +631,7 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
             {/* Flame Right (Number 7) — blue base anchored to the candle tip triangle */}
             <div
               className="absolute w-14 h-28 flex items-end justify-center pointer-events-none"
-              style={{ bottom: '56.5%', left: '57%', transform: 'translate(calc(-50% + 4px), -135px)' }}
+              style={{ bottom: '56.5%', left: '57%', transform: 'translate(calc(-50% + 4px), -130px)' }}
             >
               <AnimatePresence>
                 {isLit && (
