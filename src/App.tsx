@@ -751,13 +751,14 @@ export default function App() {
     }
   }, [isFinished]);
 
-  // Fade out music when reaching the final card 
+  // Fade out music when cake is summoned (isFinaleTriggered)
   useEffect(() => {
-    if (isFinished && audioRef.current && isPlayingBaseAudio) {
-      // Create an extremely smooth volume fade-out over ~10 seconds (100 steps of 100ms)
+    if (isFinaleTriggered && audioRef.current && isPlayingBaseAudio) {
+      // Create an extremely smooth volume fade-out over ~3 seconds (30 steps of 100ms)
+      // Faster fade than before to sync with the excitement of the cake appearance
       const audio = audioRef.current;
       const initialVol = audio.volume;
-      const steps = 100;
+      const steps = 30;
       const volumeStep = initialVol / steps;
       let currentStep = 0;
 
@@ -769,17 +770,15 @@ export default function App() {
           audio.volume = 0;
           setIsPlayingBaseAudio(false);
         } else {
-          // Prevent negative volume error
           audio.volume = Math.max(0, initialVol - (volumeStep * currentStep));
         }
       }, 100);
 
-      // Cleanup to prevent multiple intervals if user swipes rapidly back and forth
       return () => {
         clearInterval(fadeInterval);
       };
     }
-  }, [isFinished, isPlayingBaseAudio]);
+  }, [isFinaleTriggered, isPlayingBaseAudio]);
 
   // Trigger confetti automatically when reaching the last card
   useEffect(() => {
