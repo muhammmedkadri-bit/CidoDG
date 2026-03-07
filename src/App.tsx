@@ -587,76 +587,76 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
       >
         {/* Custom Cake Container */}
         <div className="relative w-[340px] md:w-[400px] flex items-center justify-center flex-col scale-[1.3] md:scale-[1.4] translate-y-16 pointer-events-none drop-shadow-2xl">
-           <img 
-              src="/pasta.png" 
-              alt="Custom Birthday Cake" 
-              className="w-full h-auto object-contain z-10"
-           />
+          <img
+            src="/pasta.png"
+            alt="Custom Birthday Cake"
+            className="w-full h-auto object-contain z-10"
+          />
 
-           {/* --- Flame Dual Wrapper overlaying the image --- */}
-           <div className="absolute inset-0 z-30 pointer-events-none flex justify-center">
+          {/* --- Flame Dual Wrapper overlaying the image --- */}
+          <div className="absolute inset-0 z-30 pointer-events-none flex justify-center">
 
-             {/* Flame Left (Number 2) positioned over the purple triangle */}
-             <div className="absolute top-[8.5%] left-[37%] -translate-x-1/2 -mt-[50px] w-16 h-28 flex justify-center pointer-events-none drop-[0_4px_4px_rgba(0,0,0,0.5)]">
-                <AnimatePresence>
-                  {isLit && (
-                    <motion.div
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
-                      transition={{ duration: 0.2 }}
-                      className="relative w-6 h-14 sm:w-8 sm:h-16 origin-bottom animate-[candle-flicker_3s_infinite_ease-in-out]"
-                    >
-                      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/15 rounded-full blur-xl z-10 pointer-events-none" />
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
-                      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
-                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                {!isLit && (
+            {/* Flame Left (Number 2) positioned over the purple triangle */}
+            <div className="absolute top-[8.5%] left-[37%] -translate-x-1/2 -mt-[50px] w-16 h-28 flex justify-center pointer-events-none drop-[0_4px_4px_rgba(0,0,0,0.5)]">
+              <AnimatePresence>
+                {isLit && (
                   <motion.div
-                    initial={{ opacity: 0, y: 0 }}
-                    animate={{ opacity: [0, 0.8, 0], y: -80, scale: 3, x: [0, -15, 10, -5] }}
-                    transition={{ duration: 3, ease: "easeOut" }}
-                    className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
-                  />
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
+                    transition={{ duration: 0.2 }}
+                    className="relative w-6 h-14 sm:w-8 sm:h-16 origin-bottom animate-[candle-flicker_3s_infinite_ease-in-out]"
+                  >
+                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/15 rounded-full blur-xl z-10 pointer-events-none" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
+                  </motion.div>
                 )}
-             </div>
+              </AnimatePresence>
+              {!isLit && (
+                <motion.div
+                  initial={{ opacity: 0, y: 0 }}
+                  animate={{ opacity: [0, 0.8, 0], y: -80, scale: 3, x: [0, -15, 10, -5] }}
+                  transition={{ duration: 3, ease: "easeOut" }}
+                  className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
+                />
+              )}
+            </div>
 
-             {/* Flame Right (Number 7) positioned over the purple triangle */}
-             <div className="absolute top-[8.5%] left-[58%] -translate-x-1/2 -mt-[50px] w-16 h-28 flex justify-center pointer-events-none drop-[0_4px_4px_rgba(0,0,0,0.5)]">
-                <AnimatePresence>
-                  {isLit && (
-                    <motion.div
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
-                      transition={{ duration: 0.2 }}
-                      className="relative w-6 h-14 sm:w-8 sm:h-16 origin-bottom animate-[candle-flicker_3.2s_infinite_ease-in-out_0.5s]"
-                    >
-                      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/15 rounded-full blur-xl z-10 pointer-events-none" />
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
-                      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
-                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                {!isLit && (
+            {/* Flame Right (Number 7) positioned over the purple triangle */}
+            <div className="absolute top-[8.5%] left-[58%] -translate-x-1/2 -mt-[50px] w-16 h-28 flex justify-center pointer-events-none drop-[0_4px_4px_rgba(0,0,0,0.5)]">
+              <AnimatePresence>
+                {isLit && (
                   <motion.div
-                    initial={{ opacity: 0, y: 0 }}
-                    animate={{ opacity: [0, 0.8, 0], y: -80, scale: 3, x: [0, 15, -10, 5] }}
-                    transition={{ duration: 3, ease: "easeOut" }}
-                    className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
-                  />
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ scale: 0, opacity: 0, y: -40, filter: "blur(15px)" }}
+                    transition={{ duration: 0.2 }}
+                    className="relative w-6 h-14 sm:w-8 sm:h-16 origin-bottom animate-[candle-flicker_3.2s_infinite_ease-in-out_0.5s]"
+                  >
+                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-28 h-28 bg-orange-500/15 rounded-full blur-xl z-10 pointer-events-none" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-16 bg-orange-500/40 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] blur-md z-20 mix-blend-screen pointer-events-none" />
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-12 bg-gradient-to-t from-blue-600 via-orange-400 to-yellow-200 rounded-[50%_50%_50%_50%_/_70%_70%_30%_30%] shadow-[0_0_20px_rgba(255,150,0,0.8),0_0_40px_rgba(255,200,50,0.4)] blur-[1px] z-30 mix-blend-screen" />
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] shadow-[0_0_10px_white] z-40" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-blue-800/80 rounded-full blur-[2px] z-50 mix-blend-multiply" />
+                  </motion.div>
                 )}
-             </div>
+              </AnimatePresence>
+              {!isLit && (
+                <motion.div
+                  initial={{ opacity: 0, y: 0 }}
+                  animate={{ opacity: [0, 0.8, 0], y: -80, scale: 3, x: [0, 15, -10, 5] }}
+                  transition={{ duration: 3, ease: "easeOut" }}
+                  className="absolute bottom-4 w-3 h-10 bg-gray-200/50 blur-xl rounded-full"
+                />
+              )}
+            </div>
 
-           </div>
+          </div>
         </div>
-
+      </div>
     </div>
   );
 }
