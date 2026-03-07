@@ -599,7 +599,7 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
             {/* Flame Left (Number 2) — blue base anchored to the candle tip triangle */}
             <div
               className="absolute w-14 h-28 flex items-end justify-center pointer-events-none"
-              style={{ bottom: '56.5%', left: '32%', transform: 'translate(calc(-50% + 32px), -132px)' }}
+              style={{ bottom: '56.5%', left: '32%', transform: 'translate(calc(-50% + 38px), -130px)' }}
             >
               <AnimatePresence>
                 {isLit && (
@@ -631,7 +631,7 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
             {/* Flame Right (Number 7) — blue base anchored to the candle tip triangle */}
             <div
               className="absolute w-14 h-28 flex items-end justify-center pointer-events-none"
-              style={{ bottom: '56.5%', left: '57%', transform: 'translate(calc(-50% + 4px), -130px)' }}
+              style={{ bottom: '56.5%', left: '57%', transform: 'translate(calc(-50% + 4px), -127px)' }}
             >
               <AnimatePresence>
                 {isLit && (
@@ -1065,13 +1065,23 @@ export default function App() {
             {!isFinaleTriggered && isFinished && (
               <div className="absolute bottom-16 left-0 right-0 flex justify-center z-50 pointer-events-auto">
                 <motion.button
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 1 }}
                   onClick={triggerFinale}
-                  className="px-8 py-3 rounded-full bg-amber-500/20 text-amber-100 border border-amber-500/30 backdrop-blur-md shadow-[0_0_20px_rgba(251,191,36,0.2)] hover:bg-amber-500/40 hover:scale-105 transition-all outline-none font-serif italic text-xl tracking-widest drop-shadow-md"
+                  className="group relative px-10 py-5 rounded-full overflow-hidden bg-transparent transition-all hover:bg-white/5 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] mx-auto flex items-center justify-center min-w-[260px]"
                 >
-                  Hadi mumuna üfle 🎉
+                  {/* Silver Animated Background Layer */}
+                  <div className="absolute inset-[-50%] bg-[conic-gradient(from_0deg,transparent_0%,rgba(200,200,200,0.8)_20%,transparent_40%)] animate-[spin_4s_linear_infinite]" />
+
+                  {/* Inner button surface */}
+                  <div className="absolute inset-[2px] bg-zinc-900/90 rounded-full backdrop-blur-md" />
+
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite] rounded-full pointer-events-none" />
+
+                  <span className="relative z-10 flex items-center justify-center gap-3 font-serif font-medium tracking-widest text-sm text-white/90 uppercase drop-shadow-md">
+                    Pastanı çağır <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform opacity-70" />
+                  </span>
                 </motion.button>
               </div>
             )}
