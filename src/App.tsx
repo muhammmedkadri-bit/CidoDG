@@ -550,9 +550,17 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
           <h2 className="text-3xl font-serif text-white/90 italic tracking-widest drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">
             Son bir şey daha...
           </h2>
-          <p className="text-white/70 mt-4 text-lg font-light tracking-wide max-w-sm mx-auto p-4 bg-black/30 rounded-2xl border border-white/5 shadow-2xl backdrop-blur-md">
-            Beraber olduğumuz son salıncaklara ufak bir hediye bıraktım. Almak istersen seni orada bekliyor. Şimdi bir dilek tut. Birazdan pasta ve mumun geldiğinde dileğini dile ve mumunu üflemek için mikrofon iznine izin ver. Her şey gönlünce olsun...
-          </p>
+          <div className="group relative mt-6 p-[2px] rounded-2xl overflow-hidden bg-transparent transition-all shadow-[0_0_20px_rgba(255,255,255,0.05)] max-w-sm mx-auto">
+            {/* Silver Animated Background Layer */}
+            <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_0%,rgba(200,200,200,0.8)_20%,transparent_40%)] animate-[spin_4s_linear_infinite]" />
+
+            {/* Inner surface */}
+            <div className="relative bg-zinc-900/90 rounded-[calc(1rem-1px)] backdrop-blur-md p-6">
+              <p className="text-white/90 text-lg font-light tracking-wide leading-relaxed">
+                En son oturduğumuz salıncaklara küçük bir hediye bıraktım eğer istersen alabilirsin. Pastanı hazırlıyorum birazdan gelecek. Pastandaki mumlara üflerken en güzel dileklerini dile. Kalbim daima seninle. Tekrar iyi ki doğdun...
+              </p>
+            </div>
+          </div>
         </motion.div>
       </div>
     );
@@ -599,7 +607,7 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
             {/* Flame Left (Number 2) — blue base anchored to the candle tip triangle */}
             <div
               className="absolute w-14 h-28 flex items-end justify-center pointer-events-none"
-              style={{ bottom: '56.5%', left: '32%', transform: 'translate(calc(-50% + 38px), -130px)' }}
+              style={{ bottom: '56.5%', left: '32%', transform: 'translate(calc(-50% + 32px), -130px)' }}
             >
               <AnimatePresence>
                 {isLit && (
