@@ -557,7 +557,7 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
             {/* Inner surface */}
             <div className="relative bg-zinc-900/90 rounded-[calc(1rem-1px)] backdrop-blur-md p-6">
               <p className="text-white/90 text-lg font-light tracking-wide leading-relaxed">
-                En son oturduğumuz salıncaklara küçük bir hediye bıraktım eğer istersen alabilirsin. Pastanı hazırlıyorum birazdan gelecek. Pastandaki mumlara üflerken en güzel dileklerini dile. Kalbim daima seninle. Tekrar iyi ki doğdun...
+                En son oturduğumuz salıncaklara küçük bir hediye bıraktım eğer istersen alabilirsin. Pastan şimdi gelecek. Mumlarını üfleyerek söndürmek için mikrofon izni çıkar ise izin ve pastandaki mumlara üflemeden önce en güzel dileklerini dile. Kalbim daima seninle. Tekrar iyi ki doğdun...
               </p>
             </div>
           </div>
