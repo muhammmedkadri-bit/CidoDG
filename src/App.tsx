@@ -449,7 +449,7 @@ const InteractiveCandle = ({ onExtinguished, onCakeAppears }: { onExtinguished: 
     const timer = setTimeout(() => {
       setIsStartup(false);
       onCakeAppears?.();
-    }, 45000);
+    }, 27000);
     return () => clearTimeout(timer);
   }, [onCakeAppears]);
 
