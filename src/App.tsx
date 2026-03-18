@@ -87,7 +87,7 @@ const SAMPLE_MEMORIES: Memory[] = [
     title: 'İlk bakış, ilk gülüş, ilk öpücük...',
     description: 'Bir aşkın ilk ateşi yakılmıştı. her şeyin ilki ilk defa yaşanacaktı... Gözlerinin içine bakarak... Öldüğümde hayat hikayem film şeridi gibi gösterildiğinde ilk defa öyle gülümseyeceğimdir.',
     imageUrl: 'https://i.hizliresim.com/o5gdad8.png',
-    location: 'halanın evi'
+    location: '03.09'
   },
   {
     id: '8',
@@ -157,21 +157,21 @@ const SAMPLE_MEMORIES: Memory[] = [
     title: 'Yoğurda düşman olmayacağın...',
     description: '',
     imageUrl: 'https://i.hizliresim.com/gelcfct.png',
-    location: '27'
+    location: '🤍'
   },
   {
     id: '18',
     title: 'Mandalinalara triplenmeyeceğin harika bir yaş olsun...',
     description: '',
     imageUrl: 'https://i.hizliresim.com/nec7tt2.png',
-    location: '27'
+    location: '🤍'
   },
   {
     id: '19',
     title: 'İyi ki doğdun \'Gece Saçlı\'',
     description: 'Her yaşına, her yaşantına ve her şeyine minnettarız. Varlığınla hayatımıza aydınlık kattığın için, sabrın ve kalbinin güzelliği ile bize abla, kardeş, dost, sırdaş ve yoldaş olduğun için iyi ki varsın. Nice güzel yaşlara. İyi ki doğdun gece saçlı güzel...',
     imageUrl: 'https://i.hizliresim.com/e1xuvk8.png',
-    location: '03.09'
+    location: 'Bu yaşında ve her yaşında...'
   }
 ];
 
@@ -439,7 +439,7 @@ const FairyLights = () => {
 };
 
 // Interactive candle component for the finale
-const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) => {
+const InteractiveCandle = ({ onExtinguished, onCakeAppears }: { onExtinguished: () => void, onCakeAppears?: () => void }) => {
   const [isLit, setIsLit] = useState(true);
   const [micState, setMicState] = useState<'idle' | 'listening' | 'error'>('idle');
   const [isStartup, setIsStartup] = useState(true);
@@ -448,9 +448,10 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsStartup(false);
-    }, 15000);
+      onCakeAppears?.();
+    }, 45000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [onCakeAppears]);
 
   useEffect(() => {
     let audioContext: AudioContext | null = null;
@@ -557,7 +558,7 @@ const InteractiveCandle = ({ onExtinguished }: { onExtinguished: () => void }) =
             {/* Inner surface */}
             <div className="relative bg-zinc-900/90 rounded-[calc(1rem-1px)] backdrop-blur-md p-6">
               <p className="text-white/90 text-lg font-light tracking-wide leading-relaxed">
-                En son oturduğumuz salıncaklara küçük bir hediye bıraktım eğer istersen alabilirsin. Pastan şimdi gelecek. Mumlarını üfleyerek söndürmek için mikrofon izni çıkar ise izin ve pastandaki mumlara üflemeden önce en güzel dileklerini dile. Kalbim daima seninle. Tekrar iyi ki doğdun...
+                En son oturduğumuz salıncaklara küçük bir hediye bıraktım eğer istersen alabilirsin. Merak etme orada olmayacağım. Pastan birazdan ekrana gelecek. Pastan geldiğinde mumlara üflediğini anlamak için mikrofon izni gerekecek lütfen ona izin ver, en güzel dileklerini tut ve mumlara doğru üfle. Bu hediyeyi bu yaşında değil her yaşında her doğum gününde aç. Kalbim daima seninle. Tekrar iyi ki doğdun.
               </p>
             </div>
           </div>
@@ -751,34 +752,7 @@ export default function App() {
     }
   }, [isFinished]);
 
-  // Fade out music when cake is summoned (isFinaleTriggered)
-  useEffect(() => {
-    if (isFinaleTriggered && audioRef.current && isPlayingBaseAudio) {
-      // Create an extremely smooth volume fade-out over ~3 seconds (30 steps of 100ms)
-      // Faster fade than before to sync with the excitement of the cake appearance
-      const audio = audioRef.current;
-      const initialVol = audio.volume;
-      const steps = 30;
-      const volumeStep = initialVol / steps;
-      let currentStep = 0;
 
-      const fadeInterval = setInterval(() => {
-        currentStep++;
-        if (currentStep >= steps) {
-          clearInterval(fadeInterval);
-          audio.pause();
-          audio.volume = 0;
-          setIsPlayingBaseAudio(false);
-        } else {
-          audio.volume = Math.max(0, initialVol - (volumeStep * currentStep));
-        }
-      }, 100);
-
-      return () => {
-        clearInterval(fadeInterval);
-      };
-    }
-  }, [isFinaleTriggered, isPlayingBaseAudio]);
 
   // Trigger confetti automatically when reaching the last card
   useEffect(() => {
@@ -1102,10 +1076,18 @@ export default function App() {
                     animate={{ opacity: 1, scale: 1, y: -20 }}
                     transition={{ type: "spring", stiffness: 100, damping: 20 }}
                   >
-                    <InteractiveCandle onExtinguished={() => {
-                      // Wait 3 seconds for the smoke animation to play before hiding everything!
-                      setTimeout(() => setIsExtinguished(true), 3000);
-                    }} />
+                    <InteractiveCandle 
+                      onCakeAppears={() => {
+                        if (audioRef.current) {
+                          audioRef.current.pause();
+                        }
+                        setIsPlayingBaseAudio(false);
+                      }}
+                      onExtinguished={() => {
+                        // Wait 3 seconds for the smoke animation to play before hiding everything!
+                        setTimeout(() => setIsExtinguished(true), 3000);
+                      }} 
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
