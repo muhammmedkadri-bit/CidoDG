@@ -6,6 +6,7 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, MapPin, Sparkles, Image as ImageIcon, ChevronRight, Play } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import confetti from 'canvas-confetti';
@@ -1118,6 +1119,7 @@ export default function App() {
         aria-hidden="true"
         playsInline // Extremely crucial for iOS autoplay
       />
+      <Analytics />
     </div>
   );
 }
